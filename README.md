@@ -13,13 +13,11 @@ $ source mini-rag/bin/activate
 ```
 
 ### Install the required packages
-
 ```bash
 $ pip install -r requirements.txt
 ```
 
 ### Setup the environment variables
-
 ```bash
 $ cp .env.example .env
 ```
@@ -27,7 +25,6 @@ $ cp .env.example .env
 Set your environment variables in the .env file like OPENAI_API_KEY value.
 
 ### Run the FASTAPI server
-
 ```bash
 uvicorn main:app
 uvicorn main:app --reload
