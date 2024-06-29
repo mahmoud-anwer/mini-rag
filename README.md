@@ -6,6 +6,12 @@ This is a minimal implementation of the RAG model for question answering.
 
 ## Installation
 
+### Create virtual environment for the application
+```bash
+$ virtualenv mini-rag
+$ source mini-rag/bin/activate
+```
+
 ### Install the required packages
 
 ```bash
@@ -20,9 +26,10 @@ $ cp .env.example .env
 
 Set your environment variables in the .env file like OPENAI_API_KEY value.
 
+### Run the FASTAPI server
 
-
-
-
-#####
-source mini-rag/bin/activate
+```bash
+uvicorn main:app
+uvicorn main:app --reload
+uvicorn main:app --reload --host 0.0.0.0 --port 5000
+```
