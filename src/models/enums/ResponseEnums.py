@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 class ResponseSignal(Enum):
     FILE_TYPE_NOT_SUPPORTED = "file type is not supported."
     FILE_SIZE_EXCEEDED = "file size is larger than expected."
