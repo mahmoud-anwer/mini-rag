@@ -43,4 +43,5 @@ uvicorn main:app --reload --host 0.0.0.0 --port 5000
     - `base` route: `/api/v1`
     - `data` route: `/api/v1/data/upload/{project_id}`
 
-high-entropy-string: "your_database_password_here"
+high-entropy-string: "PASSWORD"
+TOKEN="KD5SLD5df6dddsfdgfd"
