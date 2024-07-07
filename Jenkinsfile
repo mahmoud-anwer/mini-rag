@@ -65,7 +65,7 @@ pipeline {
                 script{
                      echo "Building..."
                     sh """
-                        docker build -t anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID} .
+                        docker build -t anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID} ./${TARGET_DIRECTORY}
                     """
                 }
             }
