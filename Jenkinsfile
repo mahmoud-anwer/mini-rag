@@ -52,9 +52,9 @@ pipeline {
                 script{
                     echo "Scaning the source code for secrets..."
                     sh """
-                        
-                        ls -l
-                        
+                        . /testENV/bin/activate
+                        trufflehog3 --format html --output report.html
+                        deactivate
                     """
                 }
             }
