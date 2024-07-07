@@ -16,28 +16,36 @@ pipeline {
     }
     
     stages {
-        // stage('Cloning repository') {
-        //     steps {
-        //         script {
-        //             echo "Cloning ..."
-        //             def cloneRepo_params = [
-        //                 github_username: env.GITHUB_USERNAME,
-        //                 credentials_id: env.CREDENTIALS_ID,
-        //                 repo_owner: env.REPO_OWNER,
-        //                 repo_name: env.REPO_NAME,
-        //                 target_dir: env.TARGET_DIRECTORY
-        //             ]
-        //             cloneRepo(cloneRepo_params)
-        //         }
-        //     }
-        // }
-        
         stage('Building Docker image') {
             steps {
                 script{
                      echo "Building..."
                     sh """
-                        docker build -t ${env.SERVICE_NAME} .
+                        docker build -t anwer95/mini-rag:${env.BUILD_ID} .
+                    """
+                }
+            }
+        }
+
+        stage('DockerHub login') {
+            steps {
+                script {
+                    echo "Logging Dockerhub..."
+                    def dockerhub_params = [
+                        dockerhub_credentials_id: env.DOCKERHUB_CREDENTIALS_ID,
+                        dockerhub_username: env.DOCKERHUB_USERNAME
+                    ]
+                    loginCR.dockerhub(dockerhub_params)
+                }
+            }
+        }
+
+        stage('Pushing Docker image') {
+            steps {
+                script {
+                    echo "Pushing Docker image..."
+                    sh """
+                        docker push anwer95/mini-rag:${env.BUILD_ID}
                     """
                 }
             }
