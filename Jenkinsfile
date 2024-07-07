@@ -36,9 +36,9 @@ pipeline {
             steps {
                 script{
                      echo "Building..."
-                    sh '''
+                    sh """
                         docker build -t ${env.SERVICE_NAME} .
-                    '''
+                    """
                 }
             }
         }
