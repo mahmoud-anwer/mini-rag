@@ -53,7 +53,7 @@ pipeline {
                     echo "Scaning the source code for secrets..."
                     sh """
                         . /testENV/bin/activate
-                        trufflehog3
+                        trufflehog3 ${TARGET_DIRECTORY}
                         deactivate
                     """
                 }
