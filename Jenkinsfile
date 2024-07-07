@@ -53,7 +53,7 @@ pipeline {
                     echo "Scaning the source code for secrets..."
                     sh """
                         . /testENV/bin/activate
-                        trufflehog3 --format html --output report.html
+                        trufflehog3 . --format html --output report.html
                         deactivate
                     """
                 }
