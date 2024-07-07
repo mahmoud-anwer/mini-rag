@@ -14,6 +14,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS_ID = "mahmoudanwer_dockerhub_token"
         DOCKERHUB_USERNAME = "anwer95"
     }
+    
     stages {
         stage('Cloning repository') {
             steps {
