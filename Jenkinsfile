@@ -13,6 +13,7 @@ pipeline {
         BASE_BRANCH = "main"
         DOCKERHUB_CREDENTIALS_ID = "mahmoudanwer_dockerhub_token"
         DOCKERHUB_USERNAME = "anwer95"
+        DOCKER_REPO_NAME = "mini-rag"
     }
     
     stages {
@@ -21,7 +22,7 @@ pipeline {
                 script{
                      echo "Building..."
                     sh """
-                        docker build -t anwer95/mini-rag:${env.BUILD_ID} .
+                        docker build -t anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID} .
                     """
                 }
             }
@@ -45,7 +46,7 @@ pipeline {
                 script {
                     echo "Pushing Docker image..."
                     sh """
-                        docker push anwer95/mini-rag:${env.BUILD_ID}
+                        docker push anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID}
                     """
                 }
             }
