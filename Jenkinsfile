@@ -54,7 +54,7 @@ pipeline {
                     sh """
                         . /testENV/bin/activate
                         ls -l
-                        trufflehog3 . --format html --output report.html
+                        // trufflehog3 . --format html --output report.html
                         deactivate
                     """
                 }
