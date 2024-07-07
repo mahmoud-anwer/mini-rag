@@ -17,6 +17,20 @@ pipeline {
     }
     
     stages {
+        stage('Scaning the source code') {
+            steps {
+                script{
+                    cleanWs()
+                    echo "Scaning the source code for secrets..."
+                    sh """
+                        . /testENV/bin/activate
+                        trufflehog3 --format html --output report.html
+                        deactivate
+                    """
+                }
+            }
+        }
+
         stage('Building Docker image') {
             steps {
                 script{
