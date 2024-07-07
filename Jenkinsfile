@@ -3,10 +3,10 @@
 pipeline {
     agent any
 
-    // Disable automatic SCM checkout
-    // options {
-    //     skipDefaultCheckout()
-    // }
+    Disable automatic SCM checkout
+    options {
+        skipDefaultCheckout()
+    }
 
     environment {
         CREDENTIALS_ID = "mahmoudanwer_github_token"
@@ -53,6 +53,7 @@ pipeline {
                     echo "Scaning the source code for secrets..."
                     sh """
                         . /testENV/bin/activate
+                        ls -l
                         trufflehog3 . --format html --output report.html
                         deactivate
                     """
