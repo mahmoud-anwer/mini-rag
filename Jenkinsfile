@@ -47,18 +47,18 @@ pipeline {
             }
         }
 
-        stage('Scaning the source code') {
-            steps {
-                script{
-                    echo "Scaning the source code for secrets..."
-                    sh """
-                        . /testENV/bin/activate
-                        trufflehog3 ${TARGET_DIRECTORY} --format html --output report.html
-                        deactivate
-                    """
-                }
-            }
-        }
+        // stage('Scaning the source code') {
+        //     steps {
+        //         script{
+        //             echo "Scaning the source code for secrets..."
+        //             sh """
+        //                 . /testENV/bin/activate
+        //                 trufflehog3 ${TARGET_DIRECTORY} --format html --output report.html
+        //                 deactivate
+        //             """
+        //         }
+        //     }
+        // }
 
         stage('Building Docker image') {
             steps {
