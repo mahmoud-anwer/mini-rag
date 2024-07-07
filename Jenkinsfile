@@ -53,7 +53,7 @@ pipeline {
                     echo "Scaning the source code for secrets..."
                     sh """
                         . /testENV/bin/activate
-                        trufflehog3 ./${TARGET_DIRECTORY} --format html --output report.html
+                        trufflehog3 ${TARGET_DIRECTORY} --format html --output report.html
                         deactivate
                     """
                 }
@@ -89,7 +89,7 @@ pipeline {
                 script {
                     echo "Pushing Docker image..."
                     sh """
-                        docker push anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID}
+                        docker push ${DOCKERHUB_USERNAME}/${DOCKER_REPO_NAME}:${env.BUILD_ID}
                     """
                 }
             }
