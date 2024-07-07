@@ -37,7 +37,7 @@ pipeline {
                 script{
                      echo "Building..."
                     sh '''
-                        ls
+                        ls -la
                         cd ${TARGET_DIRECTORY}
                     '''
                 }
