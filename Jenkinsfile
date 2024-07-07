@@ -35,7 +35,7 @@ pipeline {
         stage('Building Docker image') {
             steps {
                 script{
-                     echo "Editing..."
+                     echo "Building..."
                     sh '''
                         ls
                         cd ${TARGET_DIRECTORY}
