@@ -33,7 +33,6 @@ uvicorn main:app --reload --host 0.0.0.0 --port 5000
 ```
 
 ## Structure
-
 - Configuration
     - Directory: `helpers`
     - Method: `pydantic_settings`
@@ -42,3 +41,10 @@ uvicorn main:app --reload --host 0.0.0.0 --port 5000
 
     - `base` route: `/api/v1`
     - `data` route: `/api/v1/data/upload/{project_id}`
+
+
+## Pipeline stages
+- Scanning the source code for secrets using `truffleHog`
+- Building Docker image
+- DockerHub login
+- Pushing Docker image
