@@ -4,9 +4,9 @@ pipeline {
     agent any
 
     // Disable automatic SCM checkout
-    options {
-        skipDefaultCheckout()
-    }
+    // options {
+    //     skipDefaultCheckout()
+    // }
 
     environment {
         CREDENTIALS_ID = "mahmoudanwer_github_token"
