@@ -3,5 +3,4 @@ WORKDIR /app
 COPY ./src/requirements.txt .
 RUN pip install -r requirements.txt
 COPY ./src .
-RUN ls -l
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
