@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script{
                     echo "Cleanup the workspace..."
-                    cleanWs()
+                    // cleanWs()
                 }
             }
         }
