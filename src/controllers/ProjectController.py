@@ -1,7 +1,5 @@
-from .BaseController import BaseController
-from fastapi import UploadFile
-from models import ResponseSignal
 import os
+from .BaseController import BaseController
 
 
 class ProjectController(BaseController):
@@ -15,7 +13,7 @@ class ProjectController(BaseController):
         """
         Initializes the ProjectController instance.
 
-        Calls the constructor of the BaseController to set up the base directory and application settings.
+        Calls the constructor of the BaseController to set up the application settings.
         """
         super().__init__()
 

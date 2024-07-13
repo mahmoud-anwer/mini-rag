@@ -1,9 +1,9 @@
-from .BaseController import BaseController
-from .ProjectController import ProjectController
 import os
-from models import FileExtensions
 from langchain_community.document_loaders import TextLoader, PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from models import FileExtensions
+from .BaseController import BaseController
+from .ProjectController import ProjectController
 
 
 class ProcessController(BaseController):

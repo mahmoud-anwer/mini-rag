@@ -1,14 +1,27 @@
+import logging
 from fastapi import APIRouter, Depends, UploadFile, status
 from fastapi.responses import JSONResponse
+import aiofiles
 from helpers.config import get_settings, Settings
-from controllers import DataController, ProjectController, ProcessController
+from controllers import DataController, ProcessController
 from models import ResponseSignal
 from .schemes.data import ProcessRequest
-import aiofiles
-import logging
 
-# Add a logging functionality
-logger = logging.getLogger("uvicorn.error")
+
+# Create a logger
+logger = logging.getLogger('my_logger')
+logger.setLevel(logging.DEBUG)  # Set the minimum log level for the logger
+
+# Create a file handler
+file_handler = logging.FileHandler('uvicorn.log')
+file_handler.setLevel(logging.DEBUG)  # Set the minimum log level for the file handler
+
+# Create a log format
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+file_handler.setFormatter(formatter)
+
+# Add the handler to the logger
+logger.addHandler(file_handler)
 
 # Creating an APIRouter instance with a prefix and tags
 data_router = APIRouter(prefix="/api/v1/data", tags=["api_v1_data"])
@@ -52,7 +65,8 @@ async def upload_data(
             while chunk := await file.read(app_settings.FILE_DEFAULT_CHUNK_SIZE):
                 await f.write(chunk)
     except Exception as e:
-        logger.error(f"Error while uploading file: {e}")
+        logger.error("Error while uploading file: %s", e)
+
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={"signal": ResponseSignal.FILE_UPLOADED_FAILED.value},

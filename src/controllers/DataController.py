@@ -1,9 +1,10 @@
-from .BaseController import BaseController
+import os
+import re
 from fastapi import UploadFile
 from models import ResponseSignal
+from .BaseController import BaseController
 from .ProjectController import ProjectController
-import re
-import os
+
 
 class DataController(BaseController):
     """
@@ -35,7 +36,7 @@ class DataController(BaseController):
 
         if file.size > self.app_settings.FILE_MAX_SIZE * self.size_scale:
             return False, ResponseSignal.FILE_SIZE_EXCEEDED.value
-        
+
         return True, ResponseSignal.FILE_VALIDATED_SUCCESS
 
     def get_clean_file_name(self, orig_file_name: str) -> str:
@@ -48,9 +49,12 @@ class DataController(BaseController):
         Returns:
             str: The cleaned file name.
         """
-        # strip() method removes any leading and trailing whitespace characters from the orig_file_name string.
-        # re.sub() replaces all occurrences of the specified pattern in the input string with the given replacement string.
-        # '^\w.': not a word charachter or dot
+        # strip():
+        # to removes any leading and trailing whitespace characters from the orig_file_name string.
+        # re.sub():
+        # replaces all occurrences of the pattern in the input string with the given string.
+        # '^\w.':
+        # not a word charachter or dot
         cleaned_file_name = re.sub(r"[^\w.]", "", orig_file_name.strip())
 
         # Replace spaces with underscores
