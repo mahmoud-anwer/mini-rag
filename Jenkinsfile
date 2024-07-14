@@ -53,7 +53,7 @@ pipeline {
                     echo "SonarQube Analysis..."
                     def scannerHome = tool 'SonarQube'
                     withSonarQubeEnv('SonarQube') {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=mini-rag-main -Dsonar.projectName='mini-rag'"
+                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=mini-rag-main -Dsonar.projectName='mini-rag' -Dsonar.python.version=3.9-Dsonar.python.version=3.9"
                     }
                 }
             }
