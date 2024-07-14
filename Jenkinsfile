@@ -47,6 +47,18 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    echo "SonarQube Analysis..."
+                    def scannerHome = tool 'SonarQube Scanner'
+                    withSonarQubeEnv('SonarQubeServer') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
+            }
+        }
+
         stage('Building Docker image') {
             steps {
                 script{
@@ -78,18 +90,6 @@ pipeline {
                     sh """
                         docker push ${DOCKERHUB_USERNAME}/${DOCKER_REPO_NAME}:${env.BUILD_ID}
                     """
-                }
-            }
-        }
-
-        stage('SonarQube Analysis') {
-            steps {
-                script {
-                    echo "SonarQube Analysis..."
-                    def scannerHome = tool 'SonarQube Scanner'
-                    withSonarQubeEnv('SonarQubeServer') {
-                        sh "${scannerHome}/bin/sonar-scanner"
-                    }
                 }
             }
         }
