@@ -3,10 +3,10 @@
 pipeline {
     agent any
 
-    // Disable automatic SCM checkout
-    // options {
-    //     skipDefaultCheckout()
-    // }
+    Disable automatic SCM checkout
+    options {
+        skipDefaultCheckout()
+    }
 
     environment {
         CREDENTIALS_ID = "mahmoudanwer_github_token"
@@ -26,7 +26,7 @@ pipeline {
             steps {
                 script{
                     echo "Cleanup the workspace..."
-                    // cleanWs()
+                    cleanWs()
                 }
             }
         }
@@ -53,7 +53,12 @@ pipeline {
                     echo "SonarQube Analysis..."
                     def scannerHome = tool 'SonarQube'
                     withSonarQubeEnv('SonarQube') {
-                        sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=mini-rag-main -Dsonar.projectName='mini-rag' -Dsonar.python.version=3.9-Dsonar.python.version=3.9"
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=mini-rag-main \
+                            -Dsonar.projectName='mini-rag' \
+                            -Dsonar.python.version=3.9
+                        """
                     }
                 }
             }
