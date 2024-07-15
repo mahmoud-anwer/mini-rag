@@ -69,9 +69,9 @@ pipeline {
             steps {
                 script{
                      echo "Building..."
-                    sh """
-                        docker build -t anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID} ./${TARGET_DIRECTORY}
-                    """
+                    // sh """
+                    //     docker build -t anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID} ./${TARGET_DIRECTORY}
+                    // """
                 }
             }
         }
@@ -93,9 +93,9 @@ pipeline {
             steps {
                 script {
                     echo "Pushing Docker image..."
-                    sh """
-                        docker push ${DOCKERHUB_USERNAME}/${DOCKER_REPO_NAME}:${env.BUILD_ID}
-                    """
+                    // sh """
+                    //     docker push ${DOCKERHUB_USERNAME}/${DOCKER_REPO_NAME}:${env.BUILD_ID}
+                    // """
                 }
             }
         }
