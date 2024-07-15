@@ -57,6 +57,7 @@ pipeline {
                             ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=mini-rag-main \
                             -Dsonar.projectName='mini-rag' \
+                            -Dsonar.projectBaseDir=${TARGET_DIRECTORY}
                             -Dsonar.python.version=3.9 \
                             -Dsonar.scm.provider=git
                         """
