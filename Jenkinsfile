@@ -3,7 +3,7 @@
 pipeline {
     agent any
 
-    Disable automatic SCM checkout
+    // Disable automatic SCM checkout
     options {
         skipDefaultCheckout()
     }
