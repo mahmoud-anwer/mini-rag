@@ -70,9 +70,9 @@ pipeline {
             steps {
                 script{
                      echo "Building..."
-                    // sh """
-                    //     docker build -t anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID} ./${TARGET_DIRECTORY}
-                    // """
+                    sh """
+                        docker build -t anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID} ./${TARGET_DIRECTORY}
+                    """
                 }
             }
         }
@@ -94,9 +94,22 @@ pipeline {
             steps {
                 script {
                     echo "Pushing Docker image..."
-                    // sh """
-                    //     docker push ${DOCKERHUB_USERNAME}/${DOCKER_REPO_NAME}:${env.BUILD_ID}
-                    // """
+                    sh """
+                        docker push ${DOCKERHUB_USERNAME}/${DOCKER_REPO_NAME}:${env.BUILD_ID}
+                    """
+                }
+            }
+        }
+
+        stage('Update Docker image tag and redeploy') {
+            steps {
+                script {
+                    echo "Update Docker image tag..."
+                    sh """
+                        ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
+                        sed -i "s/IMAGE_TAG=.*/IMAGE_TAG=${BUILD_NUMBER}/" .env && \
+                        docker-compose up -d api"
+                    """
                 }
             }
         }
