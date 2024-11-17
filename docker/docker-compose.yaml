@@ -34,8 +34,7 @@ services:
       - mongo
 ###################################################  
   api:
-    build:
-      dockerfile: ../Dockerfile
+    image: anwer95/mini-rag:${IMAGE_TAG}
     container_name: api
     ports:
       - "${API_SOCKET}:5000"
