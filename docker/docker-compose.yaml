@@ -1,0 +1,36 @@
+version: '3.1'
+services:
+  mongo:
+    image: mongo:5.0.28
+    platform: ${PLATFORM}
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${DB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${DB_NAME}
+      MONGO_INITDB_USER: ${DB_USERNAME}
+      MONGO_INITDB_PWD: ${DB_PASSWORD}
+    volumes:
+      - mongo-data:/data/db
+    restart: always
+###################################################  
+  mongoexpress:
+    image: mongo-express:1.0.2-18
+    platform: ${PLATFORM}
+    container_name: mongoexpress
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: ${EXPRESS_BASIC_AUTH_USERNAME}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${EXPRESS_BASIC_AUTH_PASSWORD}
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: false
+      ME_CONFIG_MONGODB_AUTH_DATABASE: ${DB_NAME}
+      ME_CONFIG_MONGODB_AUTH_USERNAME: ${DB_USERNAME}
+      ME_CONFIG_MONGODB_AUTH_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${MONGOEXPRESS_SOCKET}:3000"
+    restart: always
+    depends_on:
+      - mongo
+
+volumes:
+  mongo-data:
