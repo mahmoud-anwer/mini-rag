@@ -44,6 +44,7 @@ uvicorn main:app --reload --host 0.0.0.0 --port 5000
 
 
 ## Pipeline stages
+- Scanning the source code by `pylint`
 - Scanning the source code for secrets using `truffleHog`
 - Building Docker image
 - DockerHub login
