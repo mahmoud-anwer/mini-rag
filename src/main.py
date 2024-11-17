@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from routes import base_router, data_router
-from helpers.config import get_settings
 
 # Creating an instance of the FastAPI class
 app = FastAPI()
