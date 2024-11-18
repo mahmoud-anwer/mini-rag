@@ -8,9 +8,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: ${DB_ROOT_USERNAME}
       MONGO_INITDB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
-      MONGO_INITDB_DATABASE: ${DB_NAME}
-      MONGO_INITDB_USER: ${DB_USERNAME}
-      MONGO_INITDB_PWD: ${DB_PASSWORD}
     volumes:
       - mongo-data:/data/db
     restart: always
