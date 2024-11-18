@@ -21,14 +21,14 @@ pipeline {
     }
     
     stages {
-        stage('Cleanup the workspace') {
-            steps {
-                script{
-                    echo "Cleanup the workspace..."
-                    cleanWs()
-                }
-            }
-        }
+        // stage('Cleanup the workspace') {
+        //     steps {
+        //         script{
+        //             echo "Cleanup the workspace..."
+        //             cleanWs()
+        //         }
+        //     }
+        // }
 
         stage('Cloning the Repository') {
             steps {
@@ -85,6 +85,15 @@ pipeline {
                         ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
                         docker-compose up -d api"
                     """
+                }
+            }
+        }
+
+        stage('Cleanup the workspace') {
+            steps {
+                script{
+                    echo "Cleanup the workspace..."
+                    cleanWs()
                 }
             }
         }
