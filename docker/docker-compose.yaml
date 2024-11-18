@@ -25,7 +25,7 @@ services:
       ME_CONFIG_MONGODB_AUTH_USERNAME: ${DB_USERNAME}
       ME_CONFIG_MONGODB_AUTH_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${MONGOEXPRESS_SOCKET}:3000"
+      - "${MONGOEXPRESS_SOCKET}:8081"
     restart: always
     depends_on:
       - mongo
