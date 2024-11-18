@@ -14,11 +14,7 @@ pipeline {
         REPO_OWNER = "mahmoud-anwer"
         REPO_NAME = "mini-rag"
         TARGET_DIRECTORY = "mini-rag"
-        SERVICE_NAME = "mini-rag-api"
         BASE_BRANCH = "main"
-        DOCKERHUB_CREDENTIALS_ID = "mahmoudanwer_dockerhub_token"
-        DOCKERHUB_USERNAME = "anwer95"
-        DOCKER_REPO_NAME = "mini-rag"
     }
     
     stages {
@@ -69,33 +65,22 @@ pipeline {
         stage('Building Docker image') {
             steps {
                 script{
-                     echo "Building..."
+                     echo "Buld Docker image..."
                     sh """
-                        docker build -t anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID} ./${TARGET_DIRECTORY}
+                        ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
+                        docker-compose build api"
                     """
                 }
             }
         }
 
-        stage('DockerHub login') {
+        stage('Deploy the new Docker image') {
             steps {
                 script {
-                    echo "Logging Dockerhub..."
-                    def dockerhub_params = [
-                        dockerhub_credentials_id: env.DOCKERHUB_CREDENTIALS_ID,
-                        dockerhub_username: env.DOCKERHUB_USERNAME
-                    ]
-                    loginCR.dockerhub(dockerhub_params)
-                }
-            }
-        }
-
-        stage('Pushing Docker image') {
-            steps {
-                script {
-                    echo "Pushing Docker image..."
+                    echo "Deploy Docker image..."
                     sh """
-                        docker push ${DOCKERHUB_USERNAME}/${DOCKER_REPO_NAME}:${env.BUILD_ID}
+                        ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
+                        docker-compose up -d api"
                     """
                 }
             }
