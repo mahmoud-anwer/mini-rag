@@ -20,7 +20,7 @@ pipeline {
                         sh """
                             ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=mini-rag-main \
-                            -Dsonar.projectBaseDir=${TARGET_DIRECTORY} \
+                            -Dsonar.projectName=${TARGET_DIRECTORY} \
                             -Dsonar.python.version=3.9 \
                             -Dsonar.scm.provider=git
                         """
