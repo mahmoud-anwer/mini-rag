@@ -74,7 +74,7 @@ pipeline {
             }
         }
 
-        stage('Deploy the new Docker image') {
+        stage('Deploying the new Docker image') {
             steps {
                 script {
                     echo "Deploy Docker image..."
