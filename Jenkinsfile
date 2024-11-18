@@ -85,6 +85,19 @@ pipeline {
                 }
             }
         }
+
+        stage('Update Docker image tag and redeploy') {
+            steps {
+                script {
+                    echo "Update Docker image tag..."
+                    sh """
+                        ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
+                        sed -i "s/IMAGE_TAG=.*/IMAGE_TAG=${BUILD_NUMBER}/" .env && \
+                        docker-compose up -d api"
+                    """
+                }
+            }
+        }
         
     }
 }
