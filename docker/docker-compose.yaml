@@ -34,7 +34,8 @@ services:
       - mongo
 ###################################################  
   api:
-    image: anwer95/mini-rag:${IMAGE_TAG}
+    build:
+      context: ../src
     container_name: api
     ports:
       - "${API_SOCKET}:5000"

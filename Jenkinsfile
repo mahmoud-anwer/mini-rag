@@ -14,11 +14,7 @@ pipeline {
         REPO_OWNER = "mahmoud-anwer"
         REPO_NAME = "mini-rag"
         TARGET_DIRECTORY = "mini-rag"
-        SERVICE_NAME = "mini-rag-api"
         BASE_BRANCH = "main"
-        DOCKERHUB_CREDENTIALS_ID = "mahmoudanwer_dockerhub_token"
-        DOCKERHUB_USERNAME = "anwer95"
-        DOCKER_REPO_NAME = "mini-rag"
     }
     
     stages {
@@ -69,45 +65,21 @@ pipeline {
         stage('Building Docker image') {
             steps {
                 script{
-                     echo "Building..."
-                    sh """
-                        docker build -t anwer95/${DOCKER_REPO_NAME}:${env.BUILD_ID} ./${TARGET_DIRECTORY}
-                    """
-                }
-            }
-        }
-
-        stage('DockerHub login') {
-            steps {
-                script {
-                    echo "Logging Dockerhub..."
-                    def dockerhub_params = [
-                        dockerhub_credentials_id: env.DOCKERHUB_CREDENTIALS_ID,
-                        dockerhub_username: env.DOCKERHUB_USERNAME
-                    ]
-                    loginCR.dockerhub(dockerhub_params)
-                }
-            }
-        }
-
-        stage('Pushing Docker image') {
-            steps {
-                script {
-                    echo "Pushing Docker image..."
-                    sh """
-                        docker push ${DOCKERHUB_USERNAME}/${DOCKER_REPO_NAME}:${env.BUILD_ID}
-                    """
-                }
-            }
-        }
-
-        stage('Update Docker image tag and redeploy') {
-            steps {
-                script {
-                    echo "Update Docker image tag..."
+                     echo "Buld Docker image..."
                     sh """
                         ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
-                        sed -i "s/IMAGE_TAG=.*/IMAGE_TAG=${BUILD_NUMBER}/" .env && \
+                        docker-compose build api"
+                    """
+                }
+            }
+        }
+
+        stage('Deploying the new Docker image') {
+            steps {
+                script {
+                    echo "Deploy Docker image..."
+                    sh """
+                        ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
                         docker-compose up -d api"
                     """
                 }
