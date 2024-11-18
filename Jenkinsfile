@@ -1,15 +1,5 @@
-@Library("myLibrary") _
-
 pipeline {
     agent any
-    // triggers {
-    //     githubPush()
-    // }
-
-    // Disable automatic SCM checkout
-    // options {
-    //     skipDefaultCheckout()
-    // }
 
     environment {
         CREDENTIALS_ID = "mahmoudanwer_github_token"
@@ -21,31 +11,6 @@ pipeline {
     }
     
     stages {
-        // stage('Cleanup the workspace') {
-        //     steps {
-        //         script{
-        //             echo "Cleanup the workspace..."
-        //             cleanWs()
-        //         }
-        //     }
-        // }
-
-        stage('Cloning the Repository') {
-            steps {
-                script {
-                    echo "Cloning..."
-                    def cloneRepo_params = [
-                        github_username: env.GITHUB_USERNAME,
-                        credentials_id: env.CREDENTIALS_ID,
-                        repo_owner: env.REPO_OWNER,
-                        repo_name: env.REPO_NAME,
-                        target_dir: env.TARGET_DIRECTORY
-                    ]
-                    cloneRepo(cloneRepo_params)
-                }
-            }
-        }
-
         stage('SonarQube Analysis') {
             steps {
                 script {
@@ -85,15 +50,6 @@ pipeline {
                         ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
                         docker-compose up -d api"
                     """
-                }
-            }
-        }
-
-        stage('Cleanup the workspace') {
-            steps {
-                script{
-                    echo "Cleanup the workspace..."
-                    cleanWs()
                 }
             }
         }
