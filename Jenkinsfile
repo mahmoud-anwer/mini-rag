@@ -2,6 +2,9 @@
 
 pipeline {
     agent any
+    triggers {
+        githubPush()
+    }
 
     // Disable automatic SCM checkout
     options {
