@@ -32,7 +32,10 @@ data_router = APIRouter(prefix="/api/v1/data", tags=["api_v1_data"])
 
 @data_router.post("/upload/{project_id}")
 async def upload_data(
-    request: Request, project_id: str, file: UploadFile, app_settings: Settings = Depends(get_settings)
+    request: Request,
+    project_id: str,
+    file: UploadFile,
+    app_settings: Settings = Depends(get_settings)
 ):
     """
     Endpoint to upload data for a specific project.
@@ -101,7 +104,7 @@ async def process_endpoint(request: Request, project_id: str, process_request: P
     """
     Endpoint to process a file for a specific project.
 
-    This endpoint processes the content of a file by dividing it into chunks, optionally with overlapping.
+    This endpoint processes the content of a file by dividing it into chunks, overlapping [optional].
     If processing fails, a 400 Bad Request response is returned.
 
     Args:
@@ -123,7 +126,7 @@ async def process_endpoint(request: Request, project_id: str, process_request: P
     # Retrieve the project model and fetch the project by project_id
     project_model = ProjectModel(db_client=request.app.db_client)
     project = await project_model.get_project_or_create_one(project_id=project_id)
-    
+
     # Initialize the process controller to handle file processing logic
     process_controller = ProcessController(project_id=project_id)
     file_content = process_controller.get_file_content(file_id=file_id)

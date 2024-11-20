@@ -1,7 +1,6 @@
 from .BaseDataModel import BaseDataModel
 from .db_schemes import Project
 from .enums.DatabaseEnum import DataBaseEnum
-from .ProjectModel import Project
 
 
 class ProjectModel(BaseDataModel):
@@ -66,7 +65,7 @@ class ProjectModel(BaseDataModel):
         """
         Retrieves all projects from the database with pagination.
 
-        Fetches projects in the specified page, limiting the number of projects based on the page size.
+        Fetches projects in the specified page, limiting the projects number based on the page size.
 
         Args:
             page (int): The page number to fetch. Defaults to 1.

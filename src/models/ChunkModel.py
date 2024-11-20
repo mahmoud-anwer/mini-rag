@@ -1,8 +1,8 @@
+from bson.objectid import ObjectId
+from pymongo import InsertOne
 from .BaseDataModel import BaseDataModel
 from .db_schemes import DataChunk
 from .enums.DatabaseEnum import DataBaseEnum
-from bson.objectid import ObjectId
-from pymongo import InsertOne
 
 
 class ChunkModel(BaseDataModel):
@@ -26,7 +26,7 @@ class ChunkModel(BaseDataModel):
         """
         Creates a new chunk in the database.
 
-        Inserts a single chunk into the collection and updates its ID with the database-generated ID.
+        Inserts a single chunk in the collection and updates its ID with the database-generated ID.
 
         Args:
             chunk (DataChunk): The chunk to be added to the database.
@@ -35,7 +35,7 @@ class ChunkModel(BaseDataModel):
             DataChunk: The chunk with its updated ID.
         """
         result = await self.collection.insert_one(chunk.dict(by_alias=True, exclude_unset=True))
-        chunk._id = result.inserted_id
+        chunk.id = result.inserted_id
         return chunk
 
     async def get_chunck(self, chunk_id: str):
