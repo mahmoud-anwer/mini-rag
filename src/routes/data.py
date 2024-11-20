@@ -100,7 +100,7 @@ async def upload_data(
 
 
 @data_router.post("/process/{project_id}")
-async def process_endpoint(request: Request, project_id: str, process_request: ProcessRequest):
+async def process_endpoint(request: Request, project_id: str, process_request: ProcessRequest): # pylint: disable=too-many-locals
     """
     Endpoint to process a file for a specific project.
 
