@@ -15,7 +15,7 @@ class Project(BaseModel):
     project_id: str = Field(..., min_length=1)
 
     @field_validator('project_id')
-    def validate_project_id(cls, value):
+    def validate_project_id(cls, value):    # pylint: disable=no-self-argument
         """
         Validates that the project_id is alphanumeric.
 
