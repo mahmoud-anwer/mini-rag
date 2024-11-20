@@ -104,13 +104,13 @@ async def process_endpoint(request: Request, project_id: str, process_request: P
     """
     Endpoint to process a file for a specific project.
 
-    This endpoint processes the content of a file by dividing it into chunks, overlapping [optional].
+    This endpoint processes the file content by dividing it into chunks, overlapping [optional].
     If processing fails, a 400 Bad Request response is returned.
 
     Args:
         project_id (str): The ID of the project for processing the file.
-        process_request (ProcessRequest): The request body containing file ID, chunk size, overlap size,
-                                          and reset flag.
+        process_request (ProcessRequest): The request body containing file ID,
+                                          chunk size, overlap size, and reset flag.
 
     Returns:
         JSONResponse: A response indicating success or failure of the processing operation.
@@ -146,7 +146,7 @@ async def process_endpoint(request: Request, project_id: str, process_request: P
             status_code=status.HTTP_400_BAD_REQUEST,
             content={"signal": ResponseSignal.PROCESSING_FAILD.value}
         )
-    
+
     # Prepare the file chunks to be saved in the database
     file_chunks_records = [
         DataChunk(
@@ -170,12 +170,12 @@ async def process_endpoint(request: Request, project_id: str, process_request: P
                 "deleted_chunks": deleted_chunks
             }
         )
-    else:
-        # Insert the newly processed chunks into the database
-        no_records = await chunk_model.insert_many_chunks(chunks=file_chunks_records)
-        return JSONResponse(
-            content={
-                "signal": ResponseSignal.PROCESSING_SUCCESS.value,
-                "inserted_chunks": no_records
-            }
-        )
+
+    # Insert the newly processed chunks into the database
+    no_records = await chunk_model.insert_many_chunks(chunks=file_chunks_records)
+    return JSONResponse(
+        content={
+            "signal": ResponseSignal.PROCESSING_SUCCESS.value,
+            "inserted_chunks": no_records
+        }
+    )
