@@ -8,3 +8,5 @@ class ResponseSignal(Enum):
     FILE_UPLOADED_SUCCESS = "file uploaded successfully."
     FILE_VALIDATED_SUCCESS = "file validated successfully."
     PROCESSING_FAILD = "file processing failed."
+    PROCESSING_SUCCESS = "file processing succeeded."
+    CHUNKS_DELETED = "chunks have been deleted."
