@@ -24,6 +24,10 @@ class Settings(BaseSettings):
     FILE_DEFAULT_CHUNK_SIZE: int
     MONGODB_URL: str
     MONGODB_DATABASE: str
+    MINIO_URL: str
+    MINIO_BUCKET_NAME: str
+    MINIO_ACCESS_KEY: str
+    MINIO_SECRET_KEY: str
 
     class Config:
         env_file = ".env"
