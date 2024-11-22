@@ -14,7 +14,7 @@ class DataChunk(BaseModel):
         chunk_project_id (ObjectId): The ID of the project this chunk belongs to [required].
     """
 
-    _id: Optional[ObjectId]
+    id: Optional[ObjectId] = Field(None, alias="_id")
     chunk_text: str = Field(..., min_length=1)
     chunk_metadata: dict
     chunk_order: int = Field(..., gt=0)

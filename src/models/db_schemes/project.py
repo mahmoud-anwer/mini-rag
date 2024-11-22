@@ -1,5 +1,5 @@
 from typing import Optional
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from bson.objectid import ObjectId
 
 class Project(BaseModel):
@@ -11,11 +11,11 @@ class Project(BaseModel):
         project_id (str): The alphanumeric ID of the project [required, minimum length of 1].
     """
 
-    _id: Optional[ObjectId]
+    id: Optional[ObjectId] = Field(None, alias="_id")
     project_id: str = Field(..., min_length=1)
 
-    @validator('project_id')
-    def validate_project_id(self, cls, value):
+    @field_validator('project_id')
+    def validate_project_id(cls, value):    # pylint: disable=no-self-argument
         """
         Validates that the project_id is alphanumeric.
 
