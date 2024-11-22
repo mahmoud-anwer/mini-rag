@@ -4,10 +4,9 @@ from fastapi.responses import JSONResponse
 import aiofiles
 from helpers.config import get_settings, Settings
 from controllers import DataController, ProcessController
-from models import ResponseSignal
+from models import ResponseSignal, DataChunk
 from services.ProjectModel import ProjectModel
 from services.ChunkModel import ChunkModel
-from models import DataChunk
 from .schemes.data import ProcessRequest
 
 
