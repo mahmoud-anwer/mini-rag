@@ -4,7 +4,7 @@ class BaseDataModel:
     def __init__(self, db_client: object):
         """
         Initializes the BaseDataModel instance with a database client and application settings.
-        
+
         Args:
             db_client (object): The connection object used to interact with the database.
         """

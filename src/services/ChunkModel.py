@@ -1,7 +1,6 @@
 from bson.objectid import ObjectId
 from pymongo import InsertOne
-from models import DataChunk
-from models import DataBaseEnum
+from models import DataChunk, DataBaseEnum
 from .BaseDataModel import BaseDataModel
 
 

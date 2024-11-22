@@ -1,5 +1,4 @@
-from models.db_schemes.project import Project
-from models import DataBaseEnum
+from models import DataBaseEnum, Project
 from .BaseDataModel import BaseDataModel
 
 
