@@ -1,6 +1,4 @@
 import os
-import random
-import string
 from helpers import get_settings
 
 
@@ -28,17 +26,3 @@ class BaseController:
 
         # Getting the files directory path "/the/whole/path/mini-rag/src/assets/files"
         self.files_dir = os.path.join(self.base_dir, "assets/files")
-
-    def generate_random_string(self, length: int = 12) -> str:
-        """
-        Generates a random string of specified length.
-
-        This method creates a random string consisting of lowercase letters and digits.
-
-        Args:
-            length (int): The length of the random string to be generated. Defaults to 12.
-
-        Returns:
-            str: A random string of the specified length.
-        """
-        return "".join(random.choices(string.ascii_lowercase + string.digits, k=length))

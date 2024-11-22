@@ -71,7 +71,7 @@ async def upload_data(
 
     # Generate a unique file path and ID for saving the file
     # file_path, file_id = data_controller.generate_unique_filepath(
-    file_id = data_controller.generate_unique_filepath(
+    file_id = data_controller.generate_unique_fileid(
         orig_file_name=file.filename,
         project_id=project_id
     )
