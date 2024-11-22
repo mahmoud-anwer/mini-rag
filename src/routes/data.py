@@ -7,7 +7,7 @@ from controllers import DataController, ProcessController
 from models import ResponseSignal
 from services.ProjectModel import ProjectModel
 from services.ChunkModel import ChunkModel
-from models.db_schemes import DataChunk
+from models import DataChunk
 from .schemes.data import ProcessRequest
 
 
