@@ -5,8 +5,8 @@ import aiofiles
 from helpers.config import get_settings, Settings
 from controllers import DataController, ProcessController
 from models import ResponseSignal
-from models.ProjectModel import ProjectModel
-from models.ChunkModel import ChunkModel
+from services.ProjectModel import ProjectModel
+from services.ChunkModel import ChunkModel
 from models.db_schemes import DataChunk
 from .schemes.data import ProcessRequest
 
