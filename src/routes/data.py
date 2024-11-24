@@ -1,13 +1,16 @@
 import logging
+from io import BytesIO
 from fastapi import APIRouter, Depends, UploadFile, status, Request
 from fastapi.responses import JSONResponse
-import aiofiles
+from minio import Minio
+from minio.error import S3Error
 from helpers.config import get_settings, Settings
 from controllers import DataController, ProcessController
 from models import ResponseSignal, DataChunk
 from services.ProjectModel import ProjectModel
 from services.ChunkModel import ChunkModel
 from .schemes.data import ProcessRequest
+
 
 
 # Create a logger to log events and errors
@@ -67,19 +70,62 @@ async def upload_data(
         )
 
     # Generate a unique file path and ID for saving the file
-    file_path, file_id = data_controller.generate_unique_filepath(
+    # file_path, file_id = data_controller.generate_unique_filepath(
+    file_id = data_controller.generate_unique_fileid(
         orig_file_name=file.filename,
         project_id=project_id
     )
 
+    # Configure the MinIO client
+    minio_client = Minio(
+        app_settings.MINIO_URL,
+        access_key=app_settings.MINIO_ACCESS_KEY,
+        secret_key=app_settings.MINIO_SECRET_KEY,
+        secure=True,  # Set to True if using HTTPS
+    )
+
+    # Specify the bucket name and file details
+    bucket_name = app_settings.MINIO_BUCKET_NAME
+
+    # Ensure the bucket exists
     try:
-        # Asynchronously open and save the uploaded file in chunks
-        async with aiofiles.open(file_path, "wb") as f:
-            while chunk := await file.read(app_settings.FILE_DEFAULT_CHUNK_SIZE):
-                await f.write(chunk)
-    except Exception as e:
-        # Log any error that occurs during file upload
-        logger.error("Error while uploading file: %s", e)
+        if not minio_client.bucket_exists(bucket_name):
+            minio_client.make_bucket(bucket_name)
+            print(f"Bucket '{bucket_name}' created.")
+        else:
+            print(f"Bucket '{bucket_name}' already exists.")
+    except S3Error as err:
+        logger.error("Error checking bucket: %s", err)
+        print(f"Error checking bucket: {err}")
+
+    # Upload file to MinIO
+    try:
+        # Save to the project id
+        complete_file_id=f"{project_id}/{file_id}"
+
+        # Read file content as a stream
+        file_content = await file.read()
+
+        minio_client.put_object(
+            bucket_name,
+            complete_file_id,  # Save with the original file name
+            data=BytesIO(file_content),  # File content as stream
+            length=len(file_content),  # Size of the file
+            content_type=file.content_type,  # File MIME type
+        )
+        print(f"'{file.filename}' uploaded to bucket '{bucket_name}' as '{file_id}'.")
+        # Return a success response with file ID and project ID
+        return JSONResponse(
+            status_code=status.HTTP_200_OK,
+            content={
+                "signal": ResponseSignal.FILE_UPLOADED_SUCCESS.value,
+                "file_id": file_id,
+                "project_id": str(project.id)
+            },
+        )
+    except S3Error as err:
+        logger.error("Error while uploading file: %s", err)
+        print(f"Error uploading file: {err}")
 
         # Return a failed upload response
         return JSONResponse(
@@ -87,19 +133,12 @@ async def upload_data(
             content={"signal": ResponseSignal.FILE_UPLOADED_FAILED.value},
         )
 
-    # Return a success response with file ID and project ID
-    return JSONResponse(
-        status_code=status.HTTP_200_OK,
-        content={
-            "signal": ResponseSignal.FILE_UPLOADED_SUCCESS.value,
-            "file_id": file_id,
-            "project_id": str(project.id)
-        },
-    )
-
 
 @data_router.post("/process/{project_id}")
-async def process_endpoint(request: Request, project_id: str, process_request: ProcessRequest): # pylint: disable=too-many-locals
+async def process_endpoint(request: Request,                                       # pylint: disable=too-many-locals
+                           project_id: str,
+                           process_request: ProcessRequest,
+                           app_settings: Settings = Depends(get_settings)):
     """
     Endpoint to process a file for a specific project.
 
@@ -128,7 +167,8 @@ async def process_endpoint(request: Request, project_id: str, process_request: P
 
     # Initialize the process controller to handle file processing logic
     process_controller = ProcessController(project_id=project_id)
-    file_content = process_controller.get_file_content(file_id=file_id)
+
+    file_content = process_controller.get_file_content(project_id=project_id, file_id=file_id)
 
     # Process the file content into chunks
     file_chunks = process_controller.process_file_content(

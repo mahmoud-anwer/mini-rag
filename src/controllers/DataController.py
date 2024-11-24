@@ -1,9 +1,9 @@
-import os
 import re
+import time
+import uuid
 from fastapi import UploadFile
 from models import ResponseSignal
-from .BaseController import BaseController
-from .ProjectController import ProjectController
+from controllers.BaseController import BaseController
 
 
 class DataController(BaseController):
@@ -62,7 +62,7 @@ class DataController(BaseController):
 
         return cleaned_file_name
 
-    def generate_unique_filepath(self, orig_file_name: str, project_id: str) -> tuple:
+    def generate_unique_fileid(self, orig_file_name: str, project_id: str) -> tuple:
         """
         Generates a unique file path for the uploaded file within the project directory.
 
@@ -73,21 +73,17 @@ class DataController(BaseController):
         Returns:
             tuple: A tuple containing the new file path and the unique file ID.
         """
-        # Generate a random string to ensure uniqueness
-        random_key = self.generate_random_string()
-        project_path = ProjectController().get_file_path(project_id=project_id)
 
         # Clean the original file name
         cleaned_file_name = self.get_clean_file_name(orig_file_name=orig_file_name)
 
-        # Create a unique file ID by combining the random key and cleaned file name
-        file_id = random_key + "_" + cleaned_file_name
-        new_file_path = os.path.join(project_path, file_id)
+        # Generate a UUID (UUIDv4)
+        uuid4 = uuid.uuid4()
 
-        # Ensure the file path is unique by checking if it already exists
-        while os.path.exists(new_file_path):
-            random_key = self.generate_random_string()
-            file_id = random_key + "_" + cleaned_file_name
-            new_file_path = os.path.join(project_path, file_id)
+        # Add timestamp-based entropy
+        timestamp_entropy = int(time.time() * 1000000)  # Microsecond precision timestamp
 
-        return new_file_path, file_id
+        # Create a unique file ID
+        file_id = f"{uuid4}-{timestamp_entropy}-{cleaned_file_name}"
+
+        return file_id

@@ -1,9 +1,12 @@
 import os
 from langchain_community.document_loaders import TextLoader, PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
+from minio import Minio
+from minio.error import S3Error
 from models import FileExtensions
-from .BaseController import BaseController
-from .ProjectController import ProjectController
+from helpers.config import get_settings
+from controllers.BaseController import BaseController
+from controllers.ProjectController import ProjectController
 
 
 class ProcessController(BaseController):
@@ -58,7 +61,7 @@ class ProcessController(BaseController):
 
         return None
 
-    def get_file_content(self, file_id: str):
+    def get_file_content(self,project_id: str, file_id: str):
         """
         Loads the content of the specified file using the appropriate loader.
 
@@ -68,6 +71,34 @@ class ProcessController(BaseController):
         Returns:
             list: The content of the file.
         """
+        app_settings = get_settings()
+
+        # Configure the MinIO client
+        minio_client = Minio(
+            app_settings.MINIO_URL,
+            access_key=app_settings.MINIO_ACCESS_KEY,
+            secret_key=app_settings.MINIO_SECRET_KEY,
+            secure=True,  # Set to True if using HTTPS
+        )
+
+        # Specify the bucket name and file details
+        bucket_name = app_settings.MINIO_BUCKET_NAME
+        object_name = f"{project_id}/{file_id}"
+        file_path = os.path.join(self.project_path, file_id)
+
+        # Ensure the bucket exists
+        try:
+            if not minio_client.bucket_exists(bucket_name):
+                print(f"Bucket '{bucket_name}' doesn't exist.")
+        except S3Error as err:
+            print(f"Error checking bucket: {err}")
+
+        # Download the file from MinIO to a certain path
+        try:
+            minio_client.fget_object(bucket_name, object_name, file_path)
+        except S3Error as err:
+            print(f"Error downloading file: {err}")
+
         loader = self.get_file_loader(file_id=file_id)
         return loader.load()
 
