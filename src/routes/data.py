@@ -1,16 +1,16 @@
 import logging
+from io import BytesIO
 from fastapi import APIRouter, Depends, UploadFile, status, Request
 from fastapi.responses import JSONResponse
-import aiofiles
+from minio import Minio
+from minio.error import S3Error
 from helpers.config import get_settings, Settings
 from controllers import DataController, ProcessController
 from models import ResponseSignal, DataChunk
 from services.ProjectModel import ProjectModel
 from services.ChunkModel import ChunkModel
 from .schemes.data import ProcessRequest
-from minio import Minio
-from minio.error import S3Error
-from io import BytesIO
+
 
 
 # Create a logger to log events and errors
@@ -71,7 +71,7 @@ async def upload_data(
 
     # Generate a unique file path and ID for saving the file
     # file_path, file_id = data_controller.generate_unique_filepath(
-    file_id = data_controller.generate_unique_filepath(
+    file_id = data_controller.generate_unique_fileid(
         orig_file_name=file.filename,
         project_id=project_id
     )
@@ -135,10 +135,10 @@ async def upload_data(
 
 
 @data_router.post("/process/{project_id}")
-async def process_endpoint(request: Request,
+async def process_endpoint(request: Request,                                       # pylint: disable=too-many-locals
                            project_id: str,
                            process_request: ProcessRequest,
-                           app_settings: Settings = Depends(get_settings)): # pylint: disable=too-many-locals
+                           app_settings: Settings = Depends(get_settings)):
     """
     Endpoint to process a file for a specific project.
 

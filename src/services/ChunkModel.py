@@ -1,7 +1,7 @@
 from bson.objectid import ObjectId
 from pymongo import InsertOne
 from models import DataChunk, DataBaseEnum
-from .BaseDataModel import BaseDataModel
+from services.BaseDataModel import BaseDataModel
 
 
 class ChunkModel(BaseDataModel):

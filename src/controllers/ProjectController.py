@@ -1,5 +1,5 @@
 import os
-from .BaseController import BaseController
+from controllers.BaseController import BaseController
 
 
 class ProjectController(BaseController):
