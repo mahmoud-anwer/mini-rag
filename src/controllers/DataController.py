@@ -3,7 +3,7 @@ import time
 import uuid
 from fastapi import UploadFile
 from models import ResponseSignal
-from .BaseController import BaseController
+from controllers.BaseController import BaseController
 
 
 class DataController(BaseController):

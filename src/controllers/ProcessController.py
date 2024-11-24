@@ -5,8 +5,8 @@ from minio import Minio
 from minio.error import S3Error
 from models import FileExtensions
 from helpers.config import get_settings
-from .BaseController import BaseController
-from .ProjectController import ProjectController
+from controllers.BaseController import BaseController
+from controllers.ProjectController import ProjectController
 
 
 class ProcessController(BaseController):
