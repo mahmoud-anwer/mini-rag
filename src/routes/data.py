@@ -1,16 +1,16 @@
 import logging
+from io import BytesIO
 from fastapi import APIRouter, Depends, UploadFile, status, Request
 from fastapi.responses import JSONResponse
-import aiofiles
+from minio import Minio
+from minio.error import S3Error
 from helpers.config import get_settings, Settings
 from controllers import DataController, ProcessController
 from models import ResponseSignal, DataChunk
 from services.ProjectModel import ProjectModel
 from services.ChunkModel import ChunkModel
 from .schemes.data import ProcessRequest
-from minio import Minio
-from minio.error import S3Error
-from io import BytesIO
+
 
 
 # Create a logger to log events and errors

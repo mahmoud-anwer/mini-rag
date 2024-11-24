@@ -1,12 +1,13 @@
 import os
 from langchain_community.document_loaders import TextLoader, PyMuPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from models import FileExtensions
-from .BaseController import BaseController
-from .ProjectController import ProjectController
-from helpers.config import get_settings, Settings
 from minio import Minio
 from minio.error import S3Error
+from models import FileExtensions
+from helpers.config import get_settings
+from .BaseController import BaseController
+from .ProjectController import ProjectController
+
 
 class ProcessController(BaseController):
     """
@@ -83,11 +84,20 @@ class ProcessController(BaseController):
         # Specify the bucket name and file details
         bucket_name = app_settings.MINIO_BUCKET_NAME
         object_name = f"{project_id}/{file_id}"
-
         file_path = os.path.join(self.project_path, file_id)
 
+        # Ensure the bucket exists
+        try:
+            if not minio_client.bucket_exists(bucket_name):
+                print(f"Bucket '{bucket_name}' doesn't exist.")
+        except S3Error as err:
+            print(f"Error checking bucket: {err}")
+
         # Download the file from MinIO to a certain path
-        minio_client.fget_object(bucket_name, object_name, file_path)
+        try:
+            minio_client.fget_object(bucket_name, object_name, file_path)
+        except S3Error as err:
+            print(f"Error downloading file: {err}")
 
         loader = self.get_file_loader(file_id=file_id)
         return loader.load()
