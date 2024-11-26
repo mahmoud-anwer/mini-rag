@@ -63,5 +63,7 @@ cp .env.example .env
 docker compose up -d
 ```
 
-### TODO:
-- add a container in the docker compose file for the application itself.
+## Enhancements
+- Use MinIO for uploads.
+- Use UUID to generate a unique file id.
+

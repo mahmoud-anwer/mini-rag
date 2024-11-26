@@ -1,5 +1,7 @@
 {
+    "python.analysis.extraPaths": ["./"],
     "pylint.args": [
-        "--disable=missing-module-docstring, invalid-name, useless-parent-delegation, too-few-public-methods, broad-exception-caught, missing-class-docstring, unused-argument"
+        "--disable=missing-module-docstring, invalid-name, useless-parent-delegation, too-few-public-methods, broad-exception-caught, missing-class-docstring, unused-argument",
+        "--max-line-length=120"
     ]
 }
