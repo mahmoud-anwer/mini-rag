@@ -1,5 +1,5 @@
 from models import DataBaseEnum, Project
-from services.BaseDataModel import BaseDataModel
+from .BaseDataModel import BaseDataModel
 
 
 class ProjectModel(BaseDataModel):
