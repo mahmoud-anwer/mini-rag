@@ -69,6 +69,7 @@ class ProjectModel(BaseDataModel):
             indexes = Project.get_indices()
 
             # Iterate over the list of indexes and create each index on the collection
+            # pylint: disable=R0801
             for index in indexes:
                 await self.collection.create_index(
                     index["key"],        # The fields for the index (e.g., field_name: 1 for ascending)
