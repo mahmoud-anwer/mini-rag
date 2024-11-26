@@ -57,7 +57,7 @@ async def upload_data(
 
     # Initialize the DataController to handle file validation
     # data_controller = DataController()
-    # 
+
     file_controller = FileController(project_id)
     # Validate the uploaded file type and size
     is_valid, signal = file_controller.validate_uploaded_file(file=file)
@@ -131,7 +131,7 @@ async def process_endpoint(request: Request,                                    
     # Initialize the process controller to handle file processing logic
     # process_controller = ProcessController(project_id=project_id)
     file_controller = FileController(project_id)
-    
+
     file_content = file_controller.get_file_content(project_id=project_id, file_id=file_id)
 
     # Process the file content into chunks

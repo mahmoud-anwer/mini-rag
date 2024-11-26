@@ -18,9 +18,6 @@ class MinIOController(BaseController):
         self.bucket_name = self.app_settings.MINIO_BUCKET_NAME
 
     async def upload_file(self, complete_file_id: str, file: UploadFile):
-        """
-            TODO
-        """
         # Ensure the bucket exists
         try:
             if not self.minio_client.bucket_exists(self.bucket_name):
@@ -55,9 +52,6 @@ class MinIOController(BaseController):
         return False
 
     def download_file(self, project_id: str, file_id: str):
-        """
-            TODO
-        """
         project_path = self.get_file_path(project_id=project_id)
         file_path = os.path.join(project_path, file_id)
         object_name = f"{project_id}/{file_id}"
