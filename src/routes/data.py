@@ -144,7 +144,7 @@ async def process_endpoint(request: Request,                                    
     ]
 
     # Initialize the ChunkModel to handle chunk data in the database
-    chunk_model = ChunkModel(db_client=request.app.db_client)
+    chunk_model = await ChunkModel.create_instance(db_client=request.app.db_client)
 
     if do_reset == 1:
         # If the reset flag is set, delete existing chunks associated with the project
