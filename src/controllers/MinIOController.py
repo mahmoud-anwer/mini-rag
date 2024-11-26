@@ -18,6 +18,9 @@ class MinIOController(BaseController):
         self.bucket_name = self.app_settings.MINIO_BUCKET_NAME
 
     async def upload_file(self, complete_file_id: str, file: UploadFile):
+        """
+            TODO
+        """
         # Ensure the bucket exists
         try:
             if not self.minio_client.bucket_exists(self.bucket_name):
@@ -43,19 +46,22 @@ class MinIOController(BaseController):
                 length=len(file_content),  # Size of the file
                 content_type=file.content_type,  # File MIME type
             )
-            print(f"'{file.filename}' uploaded to bucket '{self.bucket_name}' as '{complete_file_id}'.")
+            print(f"'{file.filename}' uploaded '{self.bucket_name}' as '{complete_file_id}'.")
             return True
-        
+
         except S3Error as err:
             # logger.error("Error while uploading file: %s", err)
             print(f"Error uploading file: {err}")
         return False
 
     def download_file(self, project_id: str, file_id: str):
+        """
+            TODO
+        """
         project_path = self.get_file_path(project_id=project_id)
         file_path = os.path.join(project_path, file_id)
         object_name = f"{project_id}/{file_id}"
-        
+
         # Ensure the bucket exists
         try:
             if not self.minio_client.bucket_exists(self.bucket_name):
