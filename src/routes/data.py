@@ -42,7 +42,9 @@ async def upload_data(
     Returns an error if the file is invalid.
     """
     # Retrieve the project model to interact with project data from the database
-    project_model = ProjectModel(db_client=request.app.db_client)
+    project_model = await ProjectModel.create_instance(db_client=request.app.db_client)
+
+    # Retrieves an existing project by its ID or creates a new one if it doesn't exist.
     project = await project_model.get_project_or_create_one(project_id=project_id)
 
     # Create a FileController instance for the given project_id to manage file-related operations
