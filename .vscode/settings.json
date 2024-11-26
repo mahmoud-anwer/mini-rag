@@ -1,4 +1,5 @@
 {
+    "python.analysis.extraPaths": ["./src"],
     "pylint.args": [
         "--disable=missing-module-docstring, invalid-name, useless-parent-delegation, too-few-public-methods, broad-exception-caught, missing-class-docstring, unused-argument"
     ]
