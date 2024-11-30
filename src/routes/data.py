@@ -31,6 +31,7 @@ data_router = APIRouter(prefix="/api/v1/data", tags=["api_v1_data"])
 
 # Endpoint to upload data for a specific project
 @data_router.post("/upload/{project_id}")
+# pylint: disable=too-many-locals
 async def upload_data(
     request: Request,  # FastAPI's Request object to handle HTTP requests
     project_id: str,   # Project ID to associate the uploaded file
