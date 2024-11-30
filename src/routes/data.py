@@ -1,13 +1,10 @@
 import logging
 from fastapi import APIRouter, Depends, UploadFile, status, Request
 from fastapi.responses import JSONResponse
-from helpers.config import get_settings, Settings
+from helpers import get_settings, Settings
 from models import ResponseSignal, DataChunk, Asset, AssetTypeEnum
-from services.ProjectModel import ProjectModel
-from services.ChunkModel import ChunkModel
-from services.AssetModel import AssetModel
-from controllers.MinIOController import MinIOController
-from controllers.FileController import FileController
+from services import ProjectModel, ChunkModel, AssetModel
+from controllers import MinIOController, FileController
 from .schemes.data import ProcessRequest
 
 
