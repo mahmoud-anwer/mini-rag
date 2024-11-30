@@ -24,7 +24,7 @@ class Asset(BaseModel):
         arbitrary_types_allowed = True
 
     @classmethod
-    def get_indices(cls):
+    def get_indexes(cls):
         """
         Class method to retrieve the indexes for the collection.
 

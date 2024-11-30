@@ -67,7 +67,7 @@ class ChunkModel(BaseDataModel):
             self.collection = self.db_client[DataBaseEnum.COLLECTION_CHUNK_NAME.value]
 
             # Retrieve the indexes for the Project model
-            indexes = DataChunk.get_indices()
+            indexes = DataChunk.get_indexes()
 
             # Iterate over the list of indexes and create each index on the collection
             # pylint: disable=R0801

@@ -32,7 +32,7 @@ class DataChunk(BaseModel):
         arbitrary_types_allowed = True
 
     @classmethod
-    def get_indices(cls):
+    def get_indexes(cls):
         """
         Returns a list of index specifications for the collection.
 

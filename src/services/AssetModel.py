@@ -44,7 +44,7 @@ class AssetModel(BaseDataModel):
         all_collections = await self.db_client.list_collection_names()
         if DataBaseEnum.COLLECTION_ASSET_NAME.value not in all_collections:
             self.collection = self.db_client[DataBaseEnum.COLLECTION_ASSET_NAME.value]
-            indexes = Asset.get_indices()
+            indexes = Asset.get_indexes()
             for index in indexes:
                 await self.collection.create_index(
                     index["key"],

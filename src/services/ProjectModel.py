@@ -66,7 +66,7 @@ class ProjectModel(BaseDataModel):
             self.collection = self.db_client[DataBaseEnum.COLLECTION_PROJECT_NAME.value]
 
             # Retrieve the indexes for the Project model
-            indexes = Project.get_indices()
+            indexes = Project.get_indexes()
 
             # Iterate over the list of indexes and create each index on the collection
             # pylint: disable=R0801
