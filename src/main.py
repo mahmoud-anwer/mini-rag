@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
 from helpers import get_settings
-from routes import base_router, data_router
+from routes import base_router, upload_router, process_router
 
 
 # Creating an instance of the FastAPI class
@@ -28,5 +28,8 @@ async def shutdown_db_client():
 # Including the base_router ("/api/v1")
 app.include_router(base_router)
 
-# Including the data_router ("/api/v1/data")
-app.include_router(data_router)
+# Including the upload_router ("/api/v1/data")
+app.include_router(upload_router)
+
+# Including the process_router ("/api/v1/data")
+app.include_router(process_router)
