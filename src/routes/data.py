@@ -2,12 +2,14 @@ import logging
 from fastapi import APIRouter, Depends, UploadFile, status, Request
 from fastapi.responses import JSONResponse
 from helpers.config import get_settings, Settings
-from models import ResponseSignal, DataChunk
+from models import ResponseSignal, DataChunk, Asset, AssetTypeEnum
 from services.ProjectModel import ProjectModel
 from services.ChunkModel import ChunkModel
+from services.AssetModel import AssetModel
 from controllers.MinIOController import MinIOController
 from controllers.FileController import FileController
 from .schemes.data import ProcessRequest
+
 
 # Create a logger to log events and errors
 logger = logging.getLogger('my_logger')
@@ -73,12 +75,20 @@ async def upload_data(
     is_uploaded = await minio_controller.upload_file(complete_file_id, file)
 
     if is_uploaded:
-        # If the file upload is successful, return a successful response with the file ID and project ID
+        # If the file upload is successful, store assets into the database,
+        # and return a successful response with the file ID and project ID
+        asset_model = await AssetModel.create_instance(db_client=request.app.db_client)
+        asset = Asset(asset_project_id=project.id,
+                      asset_type=AssetTypeEnum.FILE.value,
+                      asset_name=file_id,
+                      asset_size=file.size)
+        asset_record = await asset_model.create_asset(asset=asset)
+
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={
                 "signal": ResponseSignal.FILE_UPLOADED_SUCCESS.value,
-                "file_id": file_id,
+                "file_id": asset_record.asset_name,
                 "project_id": str(project.id)
             },
         )

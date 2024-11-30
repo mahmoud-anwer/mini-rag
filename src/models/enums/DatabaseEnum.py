@@ -13,3 +13,6 @@ class DataBaseEnum(Enum):
 
     # Collection name for chunks in the database
     COLLECTION_CHUNK_NAME = "chunks"
+
+    # Collection name for assets in the database
+    COLLECTION_ASSET_NAME = "assets"
