@@ -21,6 +21,63 @@ class ChunkModel(BaseDataModel):
         super().__init__(db_client=db_client)
         self.collection = self.db_client[DataBaseEnum.COLLECTION_CHUNK_NAME.value]
 
+    @classmethod
+    async def create_instance(cls, db_client: object):
+        """
+        Class method to create an instance of the class and initialize the collection.
+
+        This method is used to:
+            1. Create an instance of the class with the provided database client.
+            2. Initialize the collection associated with the instance by calling the `init_collection` method.
+        
+        Args:
+            db_client (object): The database client to interact with the database.
+
+        Returns:
+            object: The newly created instance of the class with the initialized collection.
+        """
+        # Create an instance of the class using the provided db_client
+        instance = cls(db_client)
+
+        # Initialize the collection for the instance
+        await instance.init_collection()
+
+        # Return the created instance
+        return instance
+
+    async def init_collection(self):
+        """
+        Initializes the chunk collection in the database by ensuring it exists.
+        If the collection does not exist, it will be created, and the appropriate indexes
+        will be added based on the Project model's index definitions.
+
+        This method performs the following actions:
+            1. Checks if the chunk collection exists in the database.
+            2. If the collection does not exist, it is created.
+            3. Retrieves the index definitions from the DataChunk model.
+            4. Creates each index in the chunk collection, ensuring proper indexing
+            for the fields and enforcing uniqueness where specified.
+        """
+        # Retrieve a list of all collection names in the database
+        all_collections = await self.db_client.list_collection_names()
+
+        # Check if the specific collection (PROJECT_COLLECTION_NAME) does not exist
+        if DataBaseEnum.COLLECTION_CHUNK_NAME.value not in all_collections:
+            # If the collection does not exist, create it by referencing the collection name
+            self.collection = self.db_client[DataBaseEnum.COLLECTION_CHUNK_NAME.value]
+
+            # Retrieve the indexes for the Project model
+            indexes = DataChunk.get_indexes()
+
+            # Iterate over the list of indexes and create each index on the collection
+            # pylint: disable=R0801
+            for index in indexes:
+                await self.collection.create_index(
+                    index["key"],        # The fields for the index (e.g., field_name: 1 for ascending)
+                    name=index["name"],  # The name of the index (e.g., "index_name")
+                    unique=index["unique"]  # Whether the index should enforce uniqueness
+                )
+
     async def create_chunk(self, chunk: DataChunk):
         """
         Creates a new chunk in the database.

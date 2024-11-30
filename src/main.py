@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorClient
-from helpers.config import get_settings
+from helpers import get_settings
 from routes import base_router, data_router
 
 

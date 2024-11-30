@@ -1,13 +1,12 @@
 import logging
 from fastapi import APIRouter, Depends, UploadFile, status, Request
 from fastapi.responses import JSONResponse
-from helpers.config import get_settings, Settings
-from models import ResponseSignal, DataChunk
-from services.ProjectModel import ProjectModel
-from services.ChunkModel import ChunkModel
-from controllers.MinIOController import MinIOController
-from controllers.FileController import FileController
+from helpers import get_settings, Settings
+from models import ResponseSignal, DataChunk, Asset, AssetTypeEnum
+from services import ProjectModel, ChunkModel, AssetModel
+from controllers import MinIOController, FileController
 from .schemes.data import ProcessRequest
+
 
 # Create a logger to log events and errors
 logger = logging.getLogger('my_logger')
@@ -29,6 +28,7 @@ data_router = APIRouter(prefix="/api/v1/data", tags=["api_v1_data"])
 
 # Endpoint to upload data for a specific project
 @data_router.post("/upload/{project_id}")
+# pylint: disable=too-many-locals
 async def upload_data(
     request: Request,  # FastAPI's Request object to handle HTTP requests
     project_id: str,   # Project ID to associate the uploaded file
@@ -42,7 +42,9 @@ async def upload_data(
     Returns an error if the file is invalid.
     """
     # Retrieve the project model to interact with project data from the database
-    project_model = ProjectModel(db_client=request.app.db_client)
+    project_model = await ProjectModel.create_instance(db_client=request.app.db_client)
+
+    # Retrieves an existing project by its ID or creates a new one if it doesn't exist.
     project = await project_model.get_project_or_create_one(project_id=project_id)
 
     # Create a FileController instance for the given project_id to manage file-related operations
@@ -71,12 +73,20 @@ async def upload_data(
     is_uploaded = await minio_controller.upload_file(complete_file_id, file)
 
     if is_uploaded:
-        # If the file upload is successful, return a successful response with the file ID and project ID
+        # If the file upload is successful, store assets into the database,
+        # and return a successful response with the file ID and project ID
+        asset_model = await AssetModel.create_instance(db_client=request.app.db_client)
+        asset = Asset(asset_project_id=project.id,
+                      asset_type=AssetTypeEnum.FILE.value,
+                      asset_name=file_id,
+                      asset_size=file.size)
+        asset_record = await asset_model.create_asset(asset=asset)
+
         return JSONResponse(
             status_code=status.HTTP_200_OK,
             content={
                 "signal": ResponseSignal.FILE_UPLOADED_SUCCESS.value,
-                "file_id": file_id,
+                "file_id": asset_record.asset_name,
                 "project_id": str(project.id)
             },
         )
@@ -142,7 +152,7 @@ async def process_endpoint(request: Request,                                    
     ]
 
     # Initialize the ChunkModel to handle chunk data in the database
-    chunk_model = ChunkModel(db_client=request.app.db_client)
+    chunk_model = await ChunkModel.create_instance(db_client=request.app.db_client)
 
     if do_reset == 1:
         # If the reset flag is set, delete existing chunks associated with the project

@@ -1,38 +1,18 @@
+from datetime import datetime
 from typing import Optional
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field
 from bson.objectid import ObjectId
 from pymongo import ASCENDING
 
 
-class Project(BaseModel):
-    """
-    Data model for a project.
-
-    Attributes:
-        _id (Optional[ObjectId]): The unique identifier for the project in the database (nullable).
-        project_id (str): The alphanumeric ID of the project [required, minimum length of 1].
-    """
-
+class Asset(BaseModel):
     id: Optional[ObjectId] = Field(None, alias="_id")
-    project_id: str = Field(..., min_length=1)
-
-    @field_validator('project_id')
-    def validate_project_id(cls, value):    # pylint: disable=no-self-argument
-        """
-        Validates that the project_id is alphanumeric.
-
-        Args:
-            value (str): The project ID to validate.
-
-        Returns:
-            str: The validated project ID.
-
-        Raises:
-            ValueError: If the project_id is not alphanumeric.
-        """
-        if not value.isalnum():
-            raise ValueError('project_id must be alphanumeric')
-        return value
+    asset_project_id: ObjectId
+    asset_type: str = Field(..., min_length=1)
+    asset_name: str = Field(..., min_length=1)
+    asset_size: int = Field(ge=0, default=None)
+    asset_config: dict = Field(default=None)
+    asset_created_at: datetime = Field(default=datetime.utcnow)
 
     class Config:
         """
@@ -61,9 +41,17 @@ class Project(BaseModel):
         return [
             {
                 "key": [
-                    ("project_id", ASCENDING)
+                    ("asset_project_id", ASCENDING)
                 ],
-                "name": "project_id_index_1",
+                "name": "asset_project_id_index_1",
+                "unique": False
+            },
+            {
+                "key": [
+                    ("asset_project_id", ASCENDING),
+                    ("asset_name", ASCENDING)
+                ],
+                "name": "asset_project_id_name_index_1",
                 "unique": True
             }
         ]
