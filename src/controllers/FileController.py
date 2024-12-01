@@ -10,7 +10,6 @@ from .MinIOController import MinIOController
 from .BaseController import BaseController
 
 
-
 class FileController(BaseController):
     def __init__(self, project_id: str):
         super().__init__()
@@ -117,6 +116,7 @@ class FileController(BaseController):
             return PyMuPDFLoader(file_path)
 
         return None
+
     def get_file_content(self,project_id: str, file_id: str):
         """
         Loads the content of the specified file using the appropriate loader.
@@ -128,9 +128,9 @@ class FileController(BaseController):
             list: The content of the file.
         """
         minio_controller = MinIOController()
-        minio_controller.download_file(project_id=project_id, file_id=file_id)
 
-
+        if not minio_controller.download_file(project_id=project_id, file_id=file_id):
+            return None
 
         loader = self.get_file_loader(file_id=file_id)
         return loader.load()

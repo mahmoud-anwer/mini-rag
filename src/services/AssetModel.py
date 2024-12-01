@@ -86,3 +86,16 @@ class AssetModel(BaseDataModel):
             Asset(**record)
             for record in records
         ]
+
+    async def get_asset_record(self, asset_project_id: str, asset_name: str):
+
+        record = await self.collection.find_one({
+            "asset_project_id": ObjectId(asset_project_id) if isinstance(asset_project_id, str) else asset_project_id,
+            "asset_name": asset_name,
+        })
+
+        if record:
+            return Asset(**record)
+
+        return None
+        
