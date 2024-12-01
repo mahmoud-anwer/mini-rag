@@ -18,6 +18,7 @@ async def process_endpoint(request: Request,                                    
                            app_settings: Settings = Depends(get_settings)):  # Dependency injection for app settings
     """
     Endpoint to process a file for a specific project.
+    
     The file is divided into chunks, and optional overlap can be specified.
     If processing fails, a 400 Bad Request response is returned.
     """
@@ -110,7 +111,13 @@ async def processall_endpoint(request: Request,                                 
                            project_id: str,  # Project ID to associate the file processing
                            process_request: ProcessRequest,  # Request body containing processing details
                            app_settings: Settings = Depends(get_settings)):  # Dependency injection for app settings
+    """
+    Endpoint to process all files associated with a project.
 
+    This endpoint handles file processing, chunking, and database operations 
+    for all files linked to a specific project. It also allows for resetting 
+    existing chunks if specified.
+    """
     # Extract the parameters from the request body (ProcessRequest)
     chunk_size = process_request.chunk_size
     overlap_size = process_request.overlap_size
