@@ -12,7 +12,7 @@ class ProcessRequest(BaseModel):
         do_reset (Optional[int]): Flag to indicate whether to reset the process, default to false
     """
 
-    file_id: str
+    file_id: Optional[str] = None
     chunk_size: Optional[int] = 100
     overlap_size: Optional[int] = 20
     do_reset: Optional[int] = 0

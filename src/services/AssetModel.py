@@ -86,3 +86,31 @@ class AssetModel(BaseDataModel):
             Asset(**record)
             for record in records
         ]
+
+    async def get_asset_record(self, asset_project_id: str, asset_name: str):
+        """
+        Retrieve an asset record from the database.
+
+        This method queries the database collection to find a single asset record 
+        matching the provided `asset_project_id` and `asset_name`.
+
+        Args:
+            asset_project_id (str): The ID of the project associated with the asset.
+                - If the `asset_project_id` is a string, it will be converted to an `ObjectId`.
+                - If it's already an `ObjectId`, it will be used directly.
+            asset_name (str): The name of the asset to be retrieved.
+
+        Returns:
+            Asset: An instance of the `Asset` class constructed from the retrieved record, 
+                if the record exists in the database.
+            None: If no matching record is found.
+        """
+        record = await self.collection.find_one({
+            "asset_project_id": ObjectId(asset_project_id) if isinstance(asset_project_id, str) else asset_project_id,
+            "asset_name": asset_name,
+        })
+
+        if record:
+            return Asset(**record)
+
+        return None

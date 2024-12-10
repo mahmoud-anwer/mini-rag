@@ -90,10 +90,10 @@ class MinIOController(BaseController):
         try:
             if not self.minio_client.bucket_exists(self.bucket_name):
                 print(f"Bucket '{self.bucket_name}' doesn't exist.")
-                return
+                return False
         except S3Error as err:
             print(f"Error checking bucket: {err}")  # Log error for bucket existence check
-            return
+            return False
 
         # Download the file from MinIO to the specified path
         try:
@@ -103,5 +103,7 @@ class MinIOController(BaseController):
                 file_path  # Local path to save the file
             )
             print(f"File '{object_name}' downloaded to '{file_path}'.")
+            return True
         except S3Error as err:
             print(f"Error downloading file: {err}")  # Log error during download
+            return False
