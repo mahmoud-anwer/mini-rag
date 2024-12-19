@@ -66,4 +66,5 @@ docker compose up -d
 ## Enhancements
 - Use MinIO for uploads.
 - Use UUID to generate a unique file id.
+- Use Qdrant container instead of using a regular directory.
 
