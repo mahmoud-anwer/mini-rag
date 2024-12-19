@@ -29,7 +29,7 @@ class ChunkModel(BaseDataModel):
         This method is used to:
             1. Create an instance of the class with the provided database client.
             2. Initialize the collection associated with the instance by calling the `init_collection` method.
-        
+
         Args:
             db_client (object): The database client to interact with the database.
 
@@ -49,14 +49,14 @@ class ChunkModel(BaseDataModel):
         """
         Initializes the chunk collection in the database by ensuring it exists.
         If the collection does not exist, it will be created, and the appropriate indexes
-        will be added based on the Project model's index definitions.
+        will be added based on the DataChunk model's index definitions.
 
         This method performs the following actions:
             1. Checks if the chunk collection exists in the database.
             2. If the collection does not exist, it is created.
             3. Retrieves the index definitions from the DataChunk model.
             4. Creates each index in the chunk collection, ensuring proper indexing
-            for the fields and enforcing uniqueness where specified.
+               for the fields and enforcing uniqueness where specified.
         """
         # Retrieve a list of all collection names in the database
         all_collections = await self.db_client.list_collection_names()
@@ -66,7 +66,7 @@ class ChunkModel(BaseDataModel):
             # If the collection does not exist, create it by referencing the collection name
             self.collection = self.db_client[DataBaseEnum.COLLECTION_CHUNK_NAME.value]
 
-            # Retrieve the indexes for the Project model
+            # Retrieve the indexes for the DataChunk model
             indexes = DataChunk.get_indexes()
 
             # Iterate over the list of indexes and create each index on the collection
@@ -82,7 +82,7 @@ class ChunkModel(BaseDataModel):
         """
         Creates a new chunk in the database.
 
-        Inserts a single chunk in the collection and updates its ID with the database-generated ID.
+        Inserts a single chunk into the collection and updates its ID with the database-generated ID.
 
         Args:
             chunk (DataChunk): The chunk to be added to the database.
@@ -154,3 +154,29 @@ class ChunkModel(BaseDataModel):
             "chunk_project_id": project_id
         })
         return result.deleted_count
+
+    async def get_poject_chunks(self, project_id: ObjectId, page_no: int=1, page_size: int=50):
+        """
+        Retrieves chunks associated with a specific project ID.
+
+        Retrieves a paginated list of chunks for the given project ID. The results are
+        returned based on the page number and page size provided.
+
+        Args:
+            project_id (ObjectId): The ID of the project whose chunks are to be retrieved.
+            page_no (int): The page number for pagination. Defaults to 1.
+            page_size (int): The number of chunks per page. Defaults to 50.
+
+        Returns:
+            list: A list of DataChunk objects for the specified project.
+        """
+        records = await self.collection.find({
+                    "chunk_project_id": project_id
+                }).skip(
+                    (page_no-1) * page_size
+                ).limit(page_size).to_list(length=None)
+
+        return [
+            DataChunk(**record)
+            for record in records
+        ]
