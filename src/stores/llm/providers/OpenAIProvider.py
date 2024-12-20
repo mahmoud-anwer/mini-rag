@@ -56,6 +56,8 @@ class OpenAIProvider(LLMInterface):
         self.client = OpenAI(api_key=self.api_key,
                              base_url=self.api_url if self.api_url and len(self.api_url) else None)
 
+        self.enums = OpenAIEnums
+
     def set_generation_model(self, model_id: str):
         """
         Sets the model ID for text generation.
@@ -121,7 +123,7 @@ class OpenAIProvider(LLMInterface):
             logger.error("Error while generating text with OpenAI")
             return None
 
-        return response.choices[0].message["content"]
+        return response.choices[0].message.content
 
     def embed_text(self, prompt: str, document_type: str = None):
         """

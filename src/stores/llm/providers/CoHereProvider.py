@@ -35,6 +35,8 @@ class CoHereProvider(LLMInterface):
 
         self.client = cohere.ClientV2(api_key=self.api_key)
 
+        self.enums = CoHereEnums
+
     def set_generation_model(self, model_id: str):
         """
         Sets the generation model ID to be used for text generation.
