@@ -1,5 +1,5 @@
 from openai import OpenAI
-from utils.logger import logger
+from utils import logger
 from ..LLMInterface import LLMInterface
 from ..LLMEnums import OpenAIEnums
 

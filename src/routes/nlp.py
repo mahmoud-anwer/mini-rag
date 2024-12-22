@@ -1,6 +1,6 @@
 from fastapi import APIRouter, status, Request
 from fastapi.responses import JSONResponse
-from utils.logger import logger
+from utils import logger
 from routes.schemes.nlp import PushRequest, SearchRequest
 from services import ProjectModel, ChunkModel
 from controllers import NLPController

@@ -1,9 +1,10 @@
 from typing import List
 from qdrant_client import models, QdrantClient
-from utils.logger import logger
+from utils import logger
+from models import RetrievedDocument
 from ..VectorDBInterface import VectorDBInterface
 from ..VectorDBEnums import DistanceMethodEnums
-from models import RetrievedDocument
+
 
 class QdrantDBProvider(VectorDBInterface):
     """

@@ -4,7 +4,7 @@ from helpers import get_settings, Settings
 from models import ResponseSignal, Asset, AssetTypeEnum
 from services import ProjectModel, AssetModel
 from controllers import MinIOController, FileController
-from utils.logger import logger
+from utils import logger
 
 
 # Creating an APIRouter instance with a prefix "/api/v1/data" and tags for the API endpoints
