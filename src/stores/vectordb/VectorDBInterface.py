@@ -77,6 +77,7 @@ class VectorDBInterface(ABC):
             do_reset (bool, optional): Whether to reset the collection if it already exists. Defaults to False.
         """
 
+    # pylint: disable=too-many-arguments
     @abstractmethod
     def insert_one(self, collection_name: str,
                    text: str, vector: list,
@@ -93,6 +94,7 @@ class VectorDBInterface(ABC):
             record_id (str, optional): An optional unique record identifier. Defaults to None.
         """
 
+    # pylint: disable=too-many-arguments
     @abstractmethod
     def insert_many(self, collection_name: str,
                     texts: list,

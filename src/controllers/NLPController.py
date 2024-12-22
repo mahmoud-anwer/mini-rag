@@ -155,6 +155,20 @@ class NLPController():
         return results
 
     def answer_rag_question(self, project: Project, query: str, limit: int = 10):
+        """
+        Answers a question using a retrieval-augmented generation (RAG) approach.
+
+        This method retrieves relevant documents from the vector database collection and uses
+        a language model to generate an answer based on the retrieved documents.
+
+        Args:
+            project (Project): The project associated with the vector database collection to search.
+            query (str): The query question to be answered.
+            limit (int): The maximum number of documents to retrieve. Defaults to 10.
+
+        Returns:
+            tuple: A tuple containing the answer, the full prompt used, and the chat history.
+        """
         answer = full_prompt = chat_history = None
 
         retrieved_documents = self.search_vector_db_collection(
@@ -169,16 +183,7 @@ class NLPController():
         # Step2: construct LLM prompt
         system_prompt = self.template_parser.get("rag", "system_prompt")
 
-        # documents_prompts = []
-        # for idx, doc in enumerate(retrieved_documents):
-        #     documents_prompts.append(
-        #         self.template_parser.get("rag", "document_prompt", {
-        #             "doc_num": idx + 1,
-        #             "chunk_text": doc.text
-        #         })
-        #     )
-
-        # comprehension list
+        # comprehension list for document prompts
         documents_prompts = "\n".join([
             self.template_parser.get("rag", "document_prompt", {
                 "doc_num": idx + 1,
@@ -187,10 +192,9 @@ class NLPController():
             for idx, doc in enumerate(retrieved_documents)
         ])
 
-
         footer_prompt = self.template_parser.get("rag", "footer_prompt", {
             "query": query
-            })
+        })
 
         chat_history = [
             self.generation_client.construct_prompt(
