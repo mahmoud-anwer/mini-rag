@@ -3,7 +3,7 @@ from utils.logger import logger
 from ..LLMInterface import LLMInterface
 from ..LLMEnums import OpenAIEnums
 
-
+# pylint: disable=too-many-instance-attributes
 class OpenAIProvider(LLMInterface):
     """
     A provider class for interacting with OpenAI's API, implementing the LLMInterface.
@@ -26,6 +26,7 @@ class OpenAIProvider(LLMInterface):
         client (OpenAI): An instance of the OpenAI API client for making requests.
     """
 
+    # pylint: disable=too-many-instance-attributes
     def __init__(self, api_key: str, api_url: str = None,
                  default_input_max_characters: int = 1000,
                  default_generation_max_output_tokens: int = 1000,
@@ -55,6 +56,8 @@ class OpenAIProvider(LLMInterface):
 
         self.client = OpenAI(api_key=self.api_key,
                              base_url=self.api_url if self.api_url and len(self.api_url) else None)
+
+        self.enums = OpenAIEnums
 
     def set_generation_model(self, model_id: str):
         """
@@ -121,7 +124,7 @@ class OpenAIProvider(LLMInterface):
             logger.error("Error while generating text with OpenAI")
             return None
 
-        return response.choices[0].message["content"]
+        return response.choices[0].message.content
 
     def embed_text(self, prompt: str, document_type: str = None):
         """

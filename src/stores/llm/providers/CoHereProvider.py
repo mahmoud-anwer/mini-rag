@@ -3,13 +3,14 @@ from utils.logger import logger
 from ..LLMInterface import LLMInterface
 from ..LLMEnums import CoHereEnums, DocumentTypeEnum
 
-
+# pylint: disable=too-many-instance-attributes
 class CoHereProvider(LLMInterface):
     """
     CoHereProvider is a provider class for interacting with the Cohere API.
     It provides methods to generate text and embed text using Cohere models.
     """
 
+    # pylint: disable=too-many-instance-attributes
     def __init__(self, api_key: str, api_url: str = None,
                  default_input_max_characters: int = 1000,
                  default_generation_max_output_tokens: int = 1000,
@@ -34,6 +35,8 @@ class CoHereProvider(LLMInterface):
         self.embedding_size = None
 
         self.client = cohere.ClientV2(api_key=self.api_key)
+
+        self.enums = CoHereEnums
 
     def set_generation_model(self, model_id: str):
         """

@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import List
+from models import RetrievedDocument
 
 class VectorDBInterface(ABC):
     """
@@ -76,6 +77,7 @@ class VectorDBInterface(ABC):
             do_reset (bool, optional): Whether to reset the collection if it already exists. Defaults to False.
         """
 
+    # pylint: disable=too-many-arguments
     @abstractmethod
     def insert_one(self, collection_name: str,
                    text: str, vector: list,
@@ -92,6 +94,7 @@ class VectorDBInterface(ABC):
             record_id (str, optional): An optional unique record identifier. Defaults to None.
         """
 
+    # pylint: disable=too-many-arguments
     @abstractmethod
     def insert_many(self, collection_name: str,
                     texts: list,
@@ -112,8 +115,7 @@ class VectorDBInterface(ABC):
         """
 
     @abstractmethod
-    def search_by_vector(self, collection_name: str,
-                         vector: list, limit: int):
+    def search_by_vector(self, collection_name: str, vector: list, limit: int) -> List[RetrievedDocument]:
         """
         Searches for similar vectors within a collection using a query vector.
 

@@ -4,6 +4,8 @@ from helpers import get_settings
 from routes import base_router, upload_router, process_router, nlp_router
 from stores.llm.LLMProviderFactory import LLMProviderFactory
 from stores.vectordb.VectorDBProviderFactory import VectorDBProviderFactory
+from stores.llm.templates.template_parser import TemplateParser
+
 
 # Creating an instance of the FastAPI class
 app = FastAPI()
@@ -33,6 +35,12 @@ async def startup_span():
     # vector db client
     app.vectordb_client = vectordb_provider_factory.create(provider=settings.VECTOR_DB_BACKEND)
     app.vectordb_client.connect()
+
+    app.template_parser = TemplateParser(
+        language=settings.PRIMARY_LANG,
+        default_language=settings.DEFAULT_LANG,
+
+    )
 
 # A FastAPI event to close the connection to DB on app shutdown
 @app.on_event("shutdown")
