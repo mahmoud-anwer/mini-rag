@@ -1,5 +1,5 @@
 from openai import OpenAI
-from utils import logger
+from utils.logger import logger
 from ..LLMInterface import LLMInterface
 from ..LLMEnums import OpenAIEnums
 
@@ -11,19 +11,6 @@ class OpenAIProvider(LLMInterface):
     This class is responsible for setting up the OpenAI client, generating text, and embedding text
     using the specified models. It also manages configuration parameters such as maximum characters,
     output tokens, and temperature for generation.
-
-    Attributes:
-        api_key (str): The API key to authenticate with OpenAI's API.
-        api_url (str, optional): The base URL for the OpenAI API (defaults to None).
-        default_input_max_characters (int): The default maximum number of input characters (default is 1000).
-        default_generation_max_output_tokens (int): The default maximum number of tokens for output generation
-                                                    (default is 1000).
-        default_generation_temperature (float): The default temperature for controlling randomness in generation
-                                                (default is 0.1).
-        generation_model_id (str, optional): The ID of the generation model to use (default is None).
-        embedding_model_id (str, optional): The ID of the embedding model to use (default is None).
-        embedding_size (int, optional): The size of the embedding (default is None).
-        client (OpenAI): An instance of the OpenAI API client for making requests.
     """
 
     # pylint: disable=too-many-instance-attributes

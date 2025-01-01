@@ -1,5 +1,5 @@
 import cohere
-from utils import logger
+from utils.logger import logger
 from ..LLMInterface import LLMInterface
 from ..LLMEnums import CoHereEnums, DocumentTypeEnum
 
