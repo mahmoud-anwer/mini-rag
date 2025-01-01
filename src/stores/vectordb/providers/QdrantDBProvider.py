@@ -85,6 +85,7 @@ class QdrantDBProvider(VectorDBInterface):
         """
         if self.is_collection_existed(collection_name):
             return self.client.delete_collection(collection_name=collection_name)
+        return None
 
     def create_collection(self, collection_name: str, embedding_size: int, do_reset: bool = False):
         """
@@ -113,6 +114,7 @@ class QdrantDBProvider(VectorDBInterface):
 
         return False
 
+    # pylint: disable=too-many-arguments
     def insert_one(self, collection_name: str, text: str, vector: list, metadata: dict = None, record_id: str = None):
         """
         Inserts a single record into the specified collection.
@@ -150,6 +152,7 @@ class QdrantDBProvider(VectorDBInterface):
 
         return True
 
+    # pylint: disable=too-many-arguments
     def insert_many(self, collection_name: str, texts: list, vectors: list, metadata: list = None,
                     record_ids: list = None, batch_size: int = 50):
         """
