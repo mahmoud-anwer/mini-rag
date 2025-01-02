@@ -1,10 +1,11 @@
 from openai import OpenAI
 from utils.logger import logger
-from ..LLMInterface import LLMInterface
 from ..LLMEnums import OpenAIEnums
+from .BaseProvider import BaseProvider
+
 
 # pylint: disable=too-many-instance-attributes
-class OpenAIProvider(LLMInterface):
+class OpenAIProvider(BaseProvider):
     """
     A provider class for interacting with OpenAI's API, implementing the LLMInterface.
 
@@ -12,60 +13,15 @@ class OpenAIProvider(LLMInterface):
     using the specified models. It also manages configuration parameters such as maximum characters,
     output tokens, and temperature for generation.
     """
-
-    # pylint: disable=too-many-instance-attributes
-    # pylint: disable=too-many-arguments
     def __init__(self, api_key: str, api_url: str = None,
                  default_input_max_characters: int = 1000,
                  default_generation_max_output_tokens: int = 1000,
                  default_generation_temperature: float = 0.1):
-        """
-        Initializes the OpenAIProvider with the provided configuration parameters.
-
-        Args:
-            api_key (str): The API key to authenticate with OpenAI's API.
-            api_url (str, optional): The base URL for the OpenAI API (default is None).
-            default_input_max_characters (int, optional): The maximum number of input characters (default is 1000).
-            default_generation_max_output_tokens (int, optional): The maximum number of tokens
-                                                                  for output generation (default is 1000).
-            default_generation_temperature (float, optional): The temperature for controlling randomness in generation
-                                                              (default is 0.1).
-        """
-        self.api_key = api_key
-        self.api_url = api_url
-
-        self.default_input_max_characters = default_input_max_characters
-        self.default_generation_max_output_tokens = default_generation_max_output_tokens
-        self.default_generation_temperature = default_generation_temperature
-
-        self.generation_model_id = None
-        self.embedding_model_id = None
-        self.embedding_size = None
-
-        self.client = OpenAI(api_key=self.api_key,
-                             base_url=self.api_url if self.api_url and len(self.api_url) else None)
-
+        super().__init__(api_key, api_url, default_input_max_characters,
+                         default_generation_max_output_tokens, default_generation_temperature)
+        self.client = OpenAI(api_key=api_key,
+                             base_url=api_url if api_url and len(api_url) else None)
         self.enums = OpenAIEnums
-
-    def set_generation_model(self, model_id: str):
-        """
-        Sets the model ID for text generation.
-
-        Args:
-            model_id (str): The ID of the model to be used for generation.
-        """
-        self.generation_model_id = model_id
-
-    def set_embedding_model(self, model_id: str, embedding_size: int):
-        """
-        Sets the model ID and embedding size for text embedding.
-
-        Args:
-            model_id (str): The ID of the model to be used for embedding.
-            embedding_size (int): The size of the embedding.
-        """
-        self.embedding_model_id = model_id
-        self.embedding_size = embedding_size
 
     def generate_text(self, prompt: str, chat_history: list = [], max_output_tokens: int = None,
                       temperature: float = None):
@@ -146,34 +102,3 @@ class OpenAIProvider(LLMInterface):
             return None
 
         return response.data[0].embedding
-
-    def construct_prompt(self, prompt: str, role: str):
-        """
-        Constructs a message prompt with the given role and processed text.
-
-        Args:
-            prompt (str): The text prompt to process.
-            role (str): The role of the user (e.g., "user", "assistant").
-
-        Returns:
-            dict: A dictionary with the role and the processed text.
-        """
-        return {
-            "role": role,
-            "content": self.process_text(prompt)
-        }
-
-    def process_text(self, text: str):
-        """
-        Processes the input text by trimming it to the default maximum characters.
-
-        Args:
-            text (str): The text to process.
-
-        Returns:
-            str: The processed text, trimmed to the default maximum characters.
-        """
-        if self.default_input_max_characters < len(text):
-            return text[self.default_input_max_characters:].strip()
-
-        return text.strip()
