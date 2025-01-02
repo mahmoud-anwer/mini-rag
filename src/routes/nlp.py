@@ -26,6 +26,7 @@ async def index_project(request: Request, project_id: str, push_request: PushReq
     project = await project_model.get_project_or_create_one(project_id=project_id)
 
     if not project:
+        logger.error("Project not found.")
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={
@@ -64,6 +65,7 @@ async def index_project(request: Request, project_id: str, push_request: PushReq
         )
 
         if not is_inserted:
+            logger.error("Inserting into vector DB.")
             return JSONResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 content={
@@ -149,6 +151,7 @@ async def search_index(request: Request, project_id: str, search_request: Search
     )
 
     if not results:
+        logger.error("Searching vector DB.")
         return JSONResponse(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 content={
@@ -197,6 +200,7 @@ async def answer_rag(request: Request, project_id: str, search_request: SearchRe
         limit=search_request.limit)
 
     if not answer:
+        logger.error("RAG answer.")
         return JSONResponse(
             status_code=status.HTTP_400_BAD_REQUEST,
             content={
