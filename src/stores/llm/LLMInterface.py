@@ -29,6 +29,7 @@ class LLMInterface(ABC):
         """
 
     @abstractmethod
+    # pylint: disable=dangerous-default-value
     def generate_text(self, prompt: str, chat_history: list = [], max_output_tokens: int = None,
                       temperature: float = None):
         """
