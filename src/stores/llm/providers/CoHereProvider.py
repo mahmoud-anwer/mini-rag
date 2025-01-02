@@ -9,6 +9,7 @@ class CoHereProvider(BaseProvider):
     CoHereProvider is a provider class for interacting with the Cohere API.
     It provides methods to generate text and embed text using Cohere models.
     """
+    # pylint: disable=too-many-arguments
     def __init__(self, api_key: str, api_url: str = None,
                  default_input_max_characters: int = 1000,
                  default_generation_max_output_tokens: int = 1000,
@@ -34,12 +35,13 @@ class CoHereProvider(BaseProvider):
         Returns:
             str: The generated text.
         """
+        # pylint: disable=duplicate-code
         if not self.client:
-            logger.error("OpenAi client was not set")
+            logger.error("CoHere client was not set")
             return None
 
         if not self.generation_model_id:
-            logger.error("Generations model for OpenAi was not set")
+            logger.error("Generations model for CoHere was not set")
             return None
 
         max_output_tokens = max_output_tokens if max_output_tokens else self.default_generation_max_output_tokens
@@ -71,11 +73,11 @@ class CoHereProvider(BaseProvider):
             list: The embedding of the text.
         """
         if not self.client:
-            logger.error("OpenAi client was not set")
+            logger.error("CoHere client was not set")
             return None
 
         if not self.embedding_model_id:
-            logger.error("Embedding model for OpenAi was not set")
+            logger.error("Embedding model for CoHere was not set")
             return None
 
         input_type = CoHereEnums.DOCUMENT

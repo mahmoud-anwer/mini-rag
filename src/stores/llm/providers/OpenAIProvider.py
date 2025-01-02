@@ -13,6 +13,7 @@ class OpenAIProvider(BaseProvider):
     using the specified models. It also manages configuration parameters such as maximum characters,
     output tokens, and temperature for generation.
     """
+    # pylint: disable=too-many-arguments
     def __init__(self, api_key: str, api_url: str = None,
                  default_input_max_characters: int = 1000,
                  default_generation_max_output_tokens: int = 1000,
@@ -42,6 +43,7 @@ class OpenAIProvider(BaseProvider):
         Raises:
             None: Returns None if there is an error in the API response or client setup.
         """
+        # pylint: disable=duplicate-code
         if not self.client:
             logger.error("OpenAi client was not set")
             return None
