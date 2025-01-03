@@ -119,12 +119,20 @@ docker compose up -d
     - route: `/api/v1/nlp/index/answer/{project_id}`
 
 ## pre-commit checks using `TruffleHog`
+- First, make sure that `Docker` servcice is up and running.
 - To scan for exposed sensitive data in each new commit. After clonning the repository, run the following commands within your virtual environment and inside the root directory.
 ```
 pip install pre-commit
 pre-commit install
 
 ```
+- To exclude any files or directories, add them to `exclude.txt` file.
+- To test the configuration locally:
+```
+pre-commit run --all-files
+
+```
+
 
 ## Pipeline stages
 - Linting using `pylint` as a github action.
