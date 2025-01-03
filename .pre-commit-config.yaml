@@ -1,0 +1,9 @@
+repos:
+- repo: local
+  hooks:
+    - id: trufflehog
+      name: TruffleHog
+      description: Detect sensitive data.
+      entry: bash -c 'docker run --rm -v "$(pwd):/workdir" -i trufflesecurity/trufflehog:latest filesystem /workdir --fail --exclude-paths /workdir/exclude.txt'
+      language: system
+      stages: ["pre-commit"]

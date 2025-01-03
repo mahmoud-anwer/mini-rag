@@ -1,0 +1,4 @@
+.git
+mini-rag
+src/.env
+docker/.env
