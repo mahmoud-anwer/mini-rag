@@ -123,7 +123,7 @@ docker compose up -d
 - Linting using `pylint` as a github action.
 - Scanning the source code for sensitive data using `truffleHog`.
 - Building Docker image.
-- DockerHub login.
+- DockerHub login
 - Pushing Docker image
 
 
