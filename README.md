@@ -124,7 +124,7 @@ docker compose up -d
 - Scanning the source code for sensitive data using `truffleHog`.
 - Building Docker image.
 - DockerHub login.
-- Pushing Docker image.
+- Pushing Docker image
 
 
 
