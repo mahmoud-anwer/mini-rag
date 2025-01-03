@@ -121,8 +121,8 @@ docker compose up -d
 
 ## Pipeline stages
 - Linting using `pylint` as a github action.
-- Scanning the source code for sensitive data using `truffleHog`
-- Building Docker image
+- Scanning the source code for sensitive data using `truffleHog`.
+- Building Docker image.
 - DockerHub login
 - Pushing Docker image
 
