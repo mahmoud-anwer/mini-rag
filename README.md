@@ -35,7 +35,7 @@ cd docker
 cp .env.example .env
 ```
 - Open `.env` file, and set the required environment variables.
-- Execute the below command to get your containers up and running:
+- Execute the following command to get your containers up and running:
 ```
 docker compose up -d
 ```
@@ -118,10 +118,16 @@ docker compose up -d
         a language model to generate an answer based on the retrieved documents.
     - route: `/api/v1/nlp/index/answer/{project_id}`
 
+## pre-commit checks using `TruffleHog`
+- To scan for exposed sensitive data in each new commit. After clonning the repository, run the following commands within your virtual environment and inside the root directory.
+```
+pip install pre-commit
+pre-commit install
+
+```
 
 ## Pipeline stages
 - Linting using `pylint` as a github action.
-- Scanning the source code for sensitive data using `truffleHog`.
 - Building Docker image.
 - DockerHub login.
 - Pushing Docker image
