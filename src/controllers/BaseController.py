@@ -18,6 +18,11 @@ class BaseController:
     def __init__(self):
         """
         Initializes the BaseController with application settings and directory paths.
+
+        Attributes initialized:
+            app_settings (dict): Application settings loaded using the get_settings function.
+            base_dir (str): Root directory of the application.
+            files_dir (str): Path to the files directory for storing project-related files.
         """
         self.app_settings = get_settings()
 
@@ -26,6 +31,7 @@ class BaseController:
 
         # Getting the files directory path "/the/whole/path/mini-rag/src/assets/files"
         self.files_dir = os.path.join(self.base_dir, "assets/files")
+
 
     def get_file_path(self, project_id: str) -> str:
         """
@@ -39,6 +45,9 @@ class BaseController:
 
         Returns:
             str: The directory path for the specified project.
+
+        Raises:
+            OSError: If the directory creation fails due to permission issues or other errors.
         """
         # Construct the project directory path using the base files directory and project ID
         project_dir = os.path.join(self.files_dir, project_id)

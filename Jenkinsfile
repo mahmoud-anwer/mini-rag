@@ -9,7 +9,7 @@ pipeline {
         TARGET_DIRECTORY = "mini-rag"
         BASE_BRANCH = "main"
     }
-    
+
     stages {
         stage('SonarQube Analysis') {
             steps {
@@ -29,10 +29,10 @@ pipeline {
             }
         }
 
-        stage('Building Docker image') {
+        stage('Building the Docker image') {
             steps {
                 script{
-                     echo "Buld Docker image..."
+                    echo "Building the Docker image..."
                     sh """
                         ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
                         docker-compose build api"
@@ -41,10 +41,10 @@ pipeline {
             }
         }
 
-        stage('Deploying the new Docker image') {
+        stage('Deploying the Docker image') {
             steps {
                 script {
-                    echo "Deploy Docker image..."
+                    echo "Deploying the Docker image..."
                     sh """
                         ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
                         docker-compose up -d api"
@@ -52,6 +52,6 @@ pipeline {
                 }
             }
         }
-        
+
     }
 }

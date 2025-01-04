@@ -4,7 +4,7 @@ from helpers import get_settings, Settings
 from models import ResponseSignal, Asset, AssetTypeEnum
 from services import ProjectModel, AssetModel
 from controllers import MinIOController, FileController
-from utils import logger
+from utils.logger import logger
 
 
 # Creating an APIRouter instance with a prefix "/api/v1/data" and tags for the API endpoints
@@ -45,10 +45,7 @@ async def upload_data(
         )
 
     # Generate a unique file ID for the uploaded file
-    file_id = file_controller.generate_unique_fileid(
-        orig_file_name=file.filename,
-        project_id=project_id
-    )
+    file_id = file_controller.generate_unique_fileid(orig_file_name=file.filename)
 
     complete_file_id = f"{project_id}/{file_id}"
 

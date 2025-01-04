@@ -4,7 +4,7 @@ from helpers import get_settings, Settings
 from models import ResponseSignal, DataChunk, AssetTypeEnum
 from services import ProjectModel, ChunkModel, AssetModel
 from controllers import FileController
-from utils import logger
+from utils.logger import logger
 from .schemes.data import ProcessRequest
 
 
@@ -18,7 +18,7 @@ async def process_endpoint(request: Request,                                    
                            app_settings: Settings = Depends(get_settings)):  # Dependency injection for app settings
     """
     Endpoint to process a file for a specific project.
-    
+
     The file is divided into chunks, and optional overlap can be specified.
     If processing fails, a 400 Bad Request response is returned.
     """
@@ -61,7 +61,6 @@ async def process_endpoint(request: Request,                                    
     # Process the file content into chunks using the specified chunk size and overlap size
     file_chunks = file_controller.process_file_content(
         file_content=file_content,
-        file_id=file_id,
         chunk_size=chunk_size,
         overlap_size=overlap_size
     )
@@ -114,8 +113,8 @@ async def processall_endpoint(request: Request,                                 
     """
     Endpoint to process all files associated with a project.
 
-    This endpoint handles file processing, chunking, and database operations 
-    for all files linked to a specific project. It also allows for resetting 
+    This endpoint handles file processing, chunking, and database operations
+    for all files linked to a specific project. It also allows for resetting
     existing chunks if specified.
     """
     # Extract the parameters from the request body (ProcessRequest)
@@ -173,7 +172,6 @@ async def processall_endpoint(request: Request,                                 
          # Process the file content into chunks using the specified chunk size and overlap size
         file_chunks = file_controller.process_file_content(
             file_content=file_content,
-            file_id=file_id,
             chunk_size=chunk_size,
             overlap_size=overlap_size
         )

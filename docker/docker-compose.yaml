@@ -11,7 +11,7 @@ services:
     volumes:
       - mongo-data:/data/db
     restart: always
-###################################################  
+###################################################
   mongoexpress:
     image: mongo-express:1.0.2-18
     platform: ${PLATFORM}
@@ -29,7 +29,14 @@ services:
     restart: always
     depends_on:
       - mongo
-###################################################  
+###################################################
+  qdrant:
+    image: qdrant/qdrant:latest
+    restart: always
+    container_name: qdrant
+    volumes:
+      - qdrant-data:/qdrant/storage
+###################################################
   api:
     build:
       context: ../src
@@ -39,6 +46,9 @@ services:
     restart: always
     depends_on:
       - mongo
+      - qdrant
 ###################################################
+
 volumes:
   mongo-data:
+  qdrant-data:

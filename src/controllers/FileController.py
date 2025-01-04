@@ -58,7 +58,7 @@ class FileController(BaseController):
 
         return cleaned_file_name
 
-    def generate_unique_fileid(self, orig_file_name: str, project_id: str) -> tuple:
+    def generate_unique_fileid(self, orig_file_name: str) -> str:
         """
         Generates a unique file path for the uploaded file within the project directory.
 
@@ -138,7 +138,6 @@ class FileController(BaseController):
     def process_file_content(
         self,
         file_content: list,
-        file_id: str,
         chunk_size: int = 100,
         overlap_size: int = 20,
     ) -> list:

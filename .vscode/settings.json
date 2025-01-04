@@ -2,6 +2,13 @@
     "python.analysis.extraPaths": ["./"],
     "pylint.args": [
         "--disable=missing-module-docstring, invalid-name, useless-parent-delegation, too-few-public-methods, broad-exception-caught, missing-class-docstring, unused-argument",
-        "--max-line-length=120"
-    ]
+        "--max-line-length=125"
+    ],
+    "python.languageServer": "Pylance",
+
+    // Automatically insert a final new line at the end of files
+    "files.insertFinalNewline": true,
+
+    // Remove trailing whitespace on save
+    "files.trimTrailingWhitespace": true
 }
