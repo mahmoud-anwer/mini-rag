@@ -119,31 +119,30 @@ docker compose up -d
     - route: `/api/v1/nlp/index/answer/{project_id}`
 
 ## pre-commit checks using `TruffleHog`
+- To scan for exposed sensitive data in each new commit.
 - First, make sure that `Docker` servcice is up and running.
-- To scan for exposed sensitive data in each new commit. After clonning the repository, run the following commands within your virtual environment and inside the root directory.
+- After clonning the repository, run the following commands within your virtual environment and inside the root directory.
 ```
 pip install pre-commit
 pre-commit install
-
 ```
 - To exclude any files or directories, add them to `exclude.txt` file.
 - To test the configuration locally:
 ```
 pre-commit run --all-files
-
 ```
 
-
-## Pipeline stages
-- Linting using `pylint` as a github action.
-- Building Docker image.
-- DockerHub login.
-- Pushing Docker image
-
-
-
+## CI/CD Pipeline
+- GitHub actions
+    - Linting using `pylint`.
+- Jenkinsfile
+    - SonarQube analysis.
+    - Building the Docker image.
+    - Pushing the created Docker image to the Docker registry.
+    - Deploying the new Docker image.
 
 ## Enhancements
+- Refactoring.
 - Use MinIO for uploads.
 - Use UUID to generate a unique file id.
 - Use Qdrant container instead of using a regular directory.
