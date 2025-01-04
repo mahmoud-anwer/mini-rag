@@ -61,7 +61,6 @@ async def process_endpoint(request: Request,                                    
     # Process the file content into chunks using the specified chunk size and overlap size
     file_chunks = file_controller.process_file_content(
         file_content=file_content,
-        file_id=file_id,
         chunk_size=chunk_size,
         overlap_size=overlap_size
     )
@@ -173,7 +172,6 @@ async def processall_endpoint(request: Request,                                 
          # Process the file content into chunks using the specified chunk size and overlap size
         file_chunks = file_controller.process_file_content(
             file_content=file_content,
-            file_id=file_id,
             chunk_size=chunk_size,
             overlap_size=overlap_size
         )
