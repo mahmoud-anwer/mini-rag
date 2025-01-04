@@ -1,4 +1,6 @@
+from typing import Optional
 from pydantic_settings import BaseSettings
+
 
 class Settings(BaseSettings):
     """
@@ -30,18 +32,18 @@ class Settings(BaseSettings):
     MINIO_SECRET_KEY: str
     GENERATION_BACKEND: str
     EMBEDDING_BACKEND: str
-    OPENAI_API_KEY: str = None
-    OPENAI_API_URL: str = None
-    COHERE_API_KEY: str = None
-    GENERATION_MODEL_ID: str = None
-    EMBEDDING_MODEL_ID: str = None
-    EMBEDDING_MODEL_SIZE: int = None
-    INPUT_DAFAULT_MAX_CHARACTERS: int = None
-    GENERATION_DAFAULT_MAX_TOKENS: int = None
-    GENERATION_DAFAULT_TEMPERATURE: float = None
+    OPENAI_API_KEY: Optional[str] = None
+    OPENAI_API_URL: Optional[str] = None
+    COHERE_API_KEY: Optional[str] = None
+    GENERATION_MODEL_ID: Optional[str] = None
+    EMBEDDING_MODEL_ID: Optional[str] = None
+    EMBEDDING_MODEL_SIZE: Optional[int] = None
+    INPUT_DAFAULT_MAX_CHARACTERS: Optional[int] = None
+    GENERATION_DAFAULT_MAX_TOKENS: Optional[int] = None
+    GENERATION_DAFAULT_TEMPERATURE: Optional[float] = None
     VECTOR_DB_BACKEND: str
     VECTOR_DB_URL: str
-    VECTOR_DB_DISTANCE_METHOD: str = None
+    VECTOR_DB_DISTANCE_METHOD: Optional[str] = None
     PRIMARY_LANG: str = "en"
     DEFAULT_LANG: str = "en"
 

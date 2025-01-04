@@ -43,8 +43,7 @@ class TemplateParser:
         else:
             self.language = self.default_language
 
-    # pylint: disable=dangerous-default-value
-    def get(self, group: str, key: str, variables: dict = {}):
+    def get(self, group: str, key: str, variables: dict = None):
         """
         Retrieves a template string from the specified group and key, replacing placeholders with values from variables.
 
