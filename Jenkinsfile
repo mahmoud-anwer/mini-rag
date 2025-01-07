@@ -15,8 +15,8 @@ pipeline {
     stages {
         stage('Retrieving the latest changes') {
             steps {
-                script{
-                    echo "Retrieving the latest changes..."
+                echo "Retrieving the latest changes..."
+                sshagent(['projects-server2']) {
                     sh """
                         ssh ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_DIR} && \
                         git pull origin ${BRANCH}"
@@ -27,8 +27,8 @@ pipeline {
 
         stage('Building the Docker image') {
             steps {
-                script{
-                    echo "Building the Docker image..."
+                echo "Building the Docker image..."
+                sshagent(['projects-server2']) {
                     sh """
                         ssh ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_DIR}/docker && \
                         docker-compose build ${SERVICE}"
@@ -39,8 +39,8 @@ pipeline {
 
         stage('Deploying the Docker image') {
             steps {
-                script {
-                    echo "Deploying the Docker image..."
+                echo "Deploying the Docker image..."
+                sshagent(['projects-server2']) {
                     sh """
                         ssh ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_DIR}/docker &&\
                         docker-compose up -d ${SERVICE}"
