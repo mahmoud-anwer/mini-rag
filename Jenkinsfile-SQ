@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        TARGET_DIRECTORY = "mini-rag"
+        PROJECT_NAME = "mini-rag"
     }
 
     stages {
@@ -15,12 +15,13 @@ pipeline {
                         sh """
                             ${scannerHome}/bin/sonar-scanner \
                             -Dsonar.projectKey=mini-rag-main \
-                            -Dsonar.projectName=${TARGET_DIRECTORY} \
+                            -Dsonar.projectName=${PROJECT_NAME} \
                             -Dsonar.python.version=3.9 \
                             -Dsonar.coverage.exclusions=** \
                             -Dsonar.scm.provider=git
                         """
                     }
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
