@@ -133,7 +133,7 @@ pre-commit run --all-files
 ```
 
 ## CI/CD Pipeline
-This is a simple pipeline for linting and deploying the new source code.
+This is a simple pipeline for linting, analysis using `SonarQube` and deploying the new source code.
 - GitHub actions
     - Linting using `pylint`.
 - Jenkinsfile-SQ `SonarQube`
