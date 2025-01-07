@@ -17,6 +17,7 @@ pipeline {
                             -Dsonar.projectKey=mini-rag-main \
                             -Dsonar.projectName=${TARGET_DIRECTORY} \
                             -Dsonar.python.version=3.9 \
+                            -Dsonar.coverage.exclusions=** \
                             -Dsonar.scm.provider=git
                         """
                     }
