@@ -2,22 +2,36 @@ pipeline {
     agent any
 
     environment {
-        CREDENTIALS_ID = "mahmoudanwer_github_token"
-        GITHUB_USERNAME = "mahmoud-anwer"
-        REPO_OWNER = "mahmoud-anwer"
-        REPO_NAME = "mini-rag"
-        TARGET_DIRECTORY = "mini-rag"
-        BASE_BRANCH = "main"
+        REMOTE_HOST = '10.0.0.154'
+        REMOTE_USER = 'ubuntu'
+        REMOTE_DIR = '/home/ubuntu/mini-rag'
+    }
+
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'main', description: 'Branch to deploy')
+        string(name: 'SERVICE', defaultValue: 'api', description: 'Service to deploy')
     }
 
     stages {
+        stage('Retrieving the latest changes') {
+            steps {
+                script{
+                    echo "Retrieving the latest changes..."
+                    sh """
+                        ssh ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_DIR} && \
+                        git pull origin ${BRANCH}"
+                    """
+                }
+            }
+        }
+
         stage('Building the Docker image') {
             steps {
                 script{
                     echo "Building the Docker image..."
                     sh """
-                        ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
-                        docker-compose build api"
+                        ssh ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_DIR}/docker && \
+                        docker-compose build ${SERVICE}"
                     """
                 }
             }
@@ -28,12 +42,11 @@ pipeline {
                 script {
                     echo "Deploying the Docker image..."
                     sh """
-                        ssh ubuntu@10.0.0.154 "cd /home/ubuntu/mini-rag/docker &&\
-                        docker-compose up -d api"
+                        ssh ${REMOTE_USER}@${REMOTE_HOST} "cd ${REMOTE_DIR}/docker &&\
+                        docker-compose up -d ${SERVICE}"
                     """
                 }
             }
         }
-
     }
 }
