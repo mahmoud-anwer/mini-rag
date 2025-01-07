@@ -147,3 +147,6 @@ This is a simple pipeline for linting, analysis using `SonarQube` and deploying 
 - Use MinIO for uploads.
 - Use UUID to generate a unique file id.
 - Use Qdrant container instead of using a regular directory.
+
+## References
+- [Mini-RAG - From notebooks to the production | Abu Bakr Soliman](https://www.youtube.com/playlist?list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj)
