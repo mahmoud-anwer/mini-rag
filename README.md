@@ -133,16 +133,17 @@ pre-commit run --all-files
 ```
 
 ## CI/CD Pipeline
+This is a simple pipeline for linting, analysis using `SonarQube` and deploying the new source code.
 - GitHub actions
     - Linting using `pylint`.
-- Jenkinsfile
+- Jenkinsfile-SQ `SonarQube`
     - SonarQube analysis.
+- Jenkinsfile
     - Building the Docker image.
-    - Pushing the created Docker image to the Docker registry.
     - Deploying the new Docker image.
 
 ## Enhancements
-- Refactoring.
+- Refactoring the source code.
 - Use MinIO for uploads.
 - Use UUID to generate a unique file id.
 - Use Qdrant container instead of using a regular directory.

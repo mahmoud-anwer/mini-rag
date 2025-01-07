@@ -24,8 +24,7 @@ class OpenAIProvider(BaseProvider):
                              base_url=api_url if api_url and len(api_url) else None)
         self.enums = OpenAIEnums
 
-    # pylint: disable=dangerous-default-value
-    def generate_text(self, prompt: str, chat_history: list = [], max_output_tokens: int = None,
+    def generate_text(self, prompt: str, chat_history: list = None, max_output_tokens: int = None,
                       temperature: float = None):
         """
         Generates text using the OpenAI model based on the provided prompt and other parameters.

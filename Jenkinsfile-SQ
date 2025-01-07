@@ -1,0 +1,28 @@
+pipeline {
+    agent any
+
+    environment {
+        TARGET_DIRECTORY = "mini-rag"
+    }
+
+    stages {
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    echo "SonarQube Analysis..."
+                    def scannerHome = tool 'SonarQube'
+                    withSonarQubeEnv('SonarQube') {
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=mini-rag-main \
+                            -Dsonar.projectName=${TARGET_DIRECTORY} \
+                            -Dsonar.python.version=3.9 \
+                            -Dsonar.coverage.exclusions=** \
+                            -Dsonar.scm.provider=git
+                        """
+                    }
+                }
+            }
+        }
+    }
+}
