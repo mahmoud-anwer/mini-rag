@@ -21,7 +21,12 @@ pipeline {
                             -Dsonar.scm.provider=git
                         """
                     }
-                    waitForQualityGate abortPipeline: true
+                }
+
+                stage('Quality Gate Check') {
+                    steps {
+                        waitForQualityGate abortPipeline: true
+                    }
                 }
             }
         }
