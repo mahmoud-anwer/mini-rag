@@ -143,8 +143,9 @@ This is a simple pipeline for linting, analysis using `SonarQube` and deploying 
     - Deploying the new Docker image.
 
 ## Enhancements
+- Add a CI/CD pipeline including static analysis.
 - Refactoring the source code.
-- Use MinIO for uploads.
+- Use MinIO for uploads (I think it would be better to use `NFS`).
 - Use UUID to generate a unique file id.
 - Use Qdrant container instead of using a regular directory.
 
