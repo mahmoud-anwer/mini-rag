@@ -62,7 +62,7 @@ docker compose up -d
     - Purpose: Handling the different routes of the application such as upload, process and nlp routes.
     - Directory: `src/routes`
 - Database operations
-    - Purpose: Handling the implementation of database logic such as creating or deleteing data chunks.
+    - Purpose: Handling the implementation of database logic such as creating or deleting data chunks.
     - Directory: `src/services`
 - LLM operations
     - Purpose:
@@ -85,8 +85,8 @@ docker compose up -d
     - Purpose: Handling creating a CI/CD pipeline for the application.
     - Directory: `src/Jenkinsfile`
 - VScode extensions
-    - Purpose: Recommending using `pylint` extension.
-    - Directory: `.vscode/extensions.json`
+    - Purpose: Recommended extensions such as `pylint`.
+    - File: `.vscode/extensions.json`
 - VScode settings
     - Purpose: Handling adding some `pylint` and `vscode` settings.
     - Directory: `.vscode/settings.json`
@@ -94,29 +94,29 @@ docker compose up -d
 ## API endpoints
 - Base
     - Purpose: Act as an informative endpoint that retrieves some information about the API.
-    - route: `/api/v1`
+    - Route: `/api/v1`
 - Upload file
     - Purpose: Upload a new file in a specific project, and retrieves the file ID.
-    - route: `/api/v1/data/upload/{project_id}`
+    - Route: `/api/v1/data/upload/{project_id}`
 - Process one file
     - Purpose: Process a file in a specific project using its ID, and retrieves the number of inserted chunks.
-    - route: `/api/v1/data/process/{project_id}`
+    - Route: `/api/v1/data/process/{project_id}`
 - Process all files
     - Purpose: Process all files in a specific project, and retrieves the number of inserted chunks, and the number of processed files.
-    - route: `/api/v1/data/processall/{project_id}`
+    - Route: `/api/v1/data/processall/{project_id}`
 - Insert chunks into Vector DB
     - Purpose: Insert the created chunks from a specific project into the Vector DB `Qdrant`, and retrieves the number of inserted items.
-    - route: `/api/v1/nlp/index/push/{project_id}`
-- Get the index information for a specific project
+    - Route: `/api/v1/nlp/index/push/{project_id}`
+- Index Information
     - Purpose: retrieve the index information for a specific project from the Vector DB `Qdrant`.
-    - route: `/api/v1/nlp/index/info/{project_id}`
+    - Route: `/api/v1/nlp/index/info/{project_id}`
 - Search into the Vector DB
     - Purpose: Perform a semantic search in the vector DB `Qdrant` for a specific project, and retrieves the results with its score.
-    - route: `/api/v1/nlp/index/search/{project_id}`
-- Answers a question using the RAG approach
+    - Route: `/api/v1/nlp/index/search/{project_id}`
+- Answer a question using the RAG approach
     - Purpose: Retrieves relevant documents for a specific project from the vector DB `Qdrant` collection and uses
         a language model to generate an answer based on the retrieved documents.
-    - route: `/api/v1/nlp/index/answer/{project_id}`
+    - Route: `/api/v1/nlp/index/answer/{project_id}`
 
 ## pre-commit checks using `TruffleHog`
 - To scan for exposed sensitive data in each new commit.
@@ -136,18 +136,18 @@ pre-commit run --all-files
 This is a simple pipeline for linting, analysis using `SonarQube` and deploying the new source code.
 - GitHub actions
     - Linting using `pylint`.
-- Jenkinsfile-SQ `SonarQube`
+- Jenkinsfile-SQ
     - SonarQube analysis.
 - Jenkinsfile
     - Building the Docker image.
     - Deploying the new Docker image.
 
 ## Enhancements
-- Add a CI/CD pipeline including static analysis using `SonarQube`.
+- Adding a CI/CD pipeline including static analysis using `SonarQube`.
 - Refactoring the source code.
-- Use MinIO for uploads (I think it would be better to use `NFS`).
-- Use UUID to generate a unique file ID.
-- Use Qdrant container instead of using a regular directory.
+- Using MinIO for uploads (I think it would be better to use `NFS`).
+- Using UUID to generate a unique file ID.
+- Using Qdrant container instead of using a regular directory.
 
 ## References
 - [Mini-RAG - From notebooks to the production | Abu Bakr Soliman](https://www.youtube.com/playlist?list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj)
