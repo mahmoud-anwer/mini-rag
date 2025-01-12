@@ -42,81 +42,81 @@ docker compose up -d
 
 ## Structure
 - Entry point
-    - Purpose: The entry point of the application.
-    - File: `src/main.py`
+    - **Purpose:** The entry point of the application.
+    - **File:** `src/main.py`
 - Assets
-    - Purpose: Storing the application assets.
-    - Directory: `src/assets`
+    - **Purpose:** Storing the application assets.
+    - **Directory:** `src/assets`
 - Controllers
-    - Purpose: Handling the main functions of the application.
-    - Directory: `src/controllers`
+    - **Purpose:** Handling the main functions of the application.
+    - **Directory:** `src/controllers`
 - Configuration
-    - Purpose: Handling the application configuration.
-    - Directory: `src/helpers`
+    - **Purpose:** Handling the application configuration.
+    - **Directory:** `src/helpers`
     - Environment variables: `src/.env` file
     - Method: `pydantic_settings`
 - Models
-    - Purpose: Handling the data models like database schemes and enumerations.
-    - Directory: `src/models`
+    - **Purpose:** Handling the data models like database schemes and enumerations.
+    - **Directory:** `src/models`
 - Routes
-    - Purpose: Handling the different routes of the application such as upload, process and nlp routes.
-    - Directory: `src/routes`
+    - **Purpose:** Handling the different routes of the application such as upload, process and nlp routes.
+    - **Directory:** `src/routes`
 - Database operations
-    - Purpose: Handling the implementation of database logic such as creating or deleting data chunks.
-    - Directory: `src/services`
+    - **Purpose:** Handling the implementation of database logic such as creating or deleting data chunks.
+    - **Directory:** `src/services`
 - LLM operations
-    - Purpose:
+    - **Purpose:**
         - Creating `interface` for different LLM providers such as `OpenAi` and `Cohere` implementing setting the generation and embedding models, and other required methods.
         - Creating `interface` for Vector databases such as `Qdrant` implementing the different database operations.
-    - Directory: `src/stores`
+    - **Directory:** `src/stores`
 - Logging
-    - Purpose: Handling the logging implementation across the application.
-    - Directory: `src/utils`
+    - **Purpose:** Handling the logging implementation across the application.
+    - **Directory:** `src/utils`
 - Dependencies
-    - Purpose: Containing the packages required by the application.
-    - Directory: `src/requirements.txt`
+    - **Purpose:** Containing the packages required by the application.
+    - **Directory:** `src/requirements.txt`
 - Dockering the application
-    - Purpose: Handling creating a `Dockerfile` for the application.
-    - File: `src/Dockerfile`
+    - **Purpose:** Handling creating a `Dockerfile` for the application.
+    - **File:** `src/Dockerfile`
 - Docker Compose
-    - Purpose: Handling create a `Docker Compose` file for the applicaion including the API, MongoDB, MongoExpress and Qdrant.
-    - Directory: `docker`
+    - **Purpose:** Handling create a `Docker Compose` file for the applicaion including the API, MongoDB, MongoExpress and Qdrant.
+    - **Directory:** `docker`
 - CI/CD pipeline
-    - Purpose: Handling creating a CI/CD pipeline for the application.
-    - Directory: `src/Jenkinsfile`
+    - **Purpose:** Handling creating a CI/CD pipeline for the application.
+    - **Directory:** `src/Jenkinsfile`
 - VScode extensions
-    - Purpose: Recommended extensions such as `pylint`.
-    - File: `.vscode/extensions.json`
+    - **Purpose:** Recommended extensions such as `pylint`.
+    - **File:** `.vscode/extensions.json`
 - VScode settings
-    - Purpose: Handling adding some `pylint` and `vscode` settings.
-    - Directory: `.vscode/settings.json`
+    - **Purpose:** Handling adding some `pylint` and `vscode` settings.
+    - **Directory:** `.vscode/settings.json`
 
 ## API endpoints
 - Base
-    - Purpose: Act as an informative endpoint that retrieves some information about the API.
-    - Route: `/api/v1`
+    - **Purpose:** Act as an informative endpoint that retrieves some information about the API.
+    - **Route:** `/api/v1`
 - Upload file
-    - Purpose: Upload a new file in a specific project, and retrieves the file ID.
-    - Route: `/api/v1/data/upload/{project_id}`
+    - **Purpose:** Upload a new file in a specific project, and retrieves the file ID.
+    - **Route:** `/api/v1/data/upload/{project_id}`
 - Process one file
-    - Purpose: Process a file in a specific project using its ID, and retrieves the number of inserted chunks.
-    - Route: `/api/v1/data/process/{project_id}`
+    - **Purpose:** Process a file in a specific project using its ID, and retrieves the number of inserted chunks.
+    - **Route:** `/api/v1/data/process/{project_id}`
 - Process all files
-    - Purpose: Process all files in a specific project, and retrieves the number of inserted chunks, and the number of processed files.
-    - Route: `/api/v1/data/processall/{project_id}`
+    - **Purpose:** Process all files in a specific project, and retrieves the number of inserted chunks, and the number of processed files.
+    - **Route:** `/api/v1/data/processall/{project_id}`
 - Insert chunks into Vector DB
-    - Purpose: Insert the created chunks from a specific project into the Vector DB `Qdrant`, and retrieves the number of inserted items.
-    - Route: `/api/v1/nlp/index/push/{project_id}`
+    - **Purpose:** Insert the created chunks from a specific project into the Vector DB `Qdrant`, and retrieves the number of inserted items.
+    - **Route:** `/api/v1/nlp/index/push/{project_id}`
 - Index Information
-    - Purpose: retrieve the index information for a specific project from the Vector DB `Qdrant`.
-    - Route: `/api/v1/nlp/index/info/{project_id}`
+    - **Purpose:** retrieve the index information for a specific project from the Vector DB `Qdrant`.
+    - **Route:** `/api/v1/nlp/index/info/{project_id}`
 - Search into the Vector DB
-    - Purpose: Perform a semantic search in the vector DB `Qdrant` for a specific project, and retrieves the results with its score.
-    - Route: `/api/v1/nlp/index/search/{project_id}`
+    - **Purpose:** Perform a semantic search in the vector DB `Qdrant` for a specific project, and retrieves the results with its score.
+    - **Route:** `/api/v1/nlp/index/search/{project_id}`
 - Answer a question using the RAG approach
-    - Purpose: Retrieves relevant documents for a specific project from the vector DB `Qdrant` collection and uses
+    - **Purpose:** Retrieves relevant documents for a specific project from the vector DB `Qdrant` collection and uses
         a language model to generate an answer based on the retrieved documents.
-    - Route: `/api/v1/nlp/index/answer/{project_id}`
+    - **Route:** `/api/v1/nlp/index/answer/{project_id}`
 
 ## pre-commit checks using `TruffleHog`
 - To scan for exposed sensitive data in each new commit.
@@ -134,20 +134,19 @@ pre-commit run --all-files
 
 ## CI/CD Pipeline
 This is a simple pipeline for linting, analysis using `SonarQube` and deploying the new source code.
-- GitHub actions
-    - Linting using `pylint`.
-- Jenkinsfile-SQ
-    - SonarQube analysis.
-- Jenkinsfile
-    - Building the Docker image.
-    - Deploying the new Docker image.
+- GitHub action workflows for Code linting.
+    - **File:** `.github/workflows/pylint.yml`
+- Building and deploying the application.
+    - **File:** `src/Jenkinsfile`
+- Code analysis using SonarQube.
+    - **File:** `src/Jenkinsfile-SQ`
 
 ## Enhancements
-- Adding a CI/CD pipeline including static analysis using `SonarQube`.
+- Adding a `CI/CD` pipeline including static analysis using `SonarQube`.
 - Refactoring the source code.
-- Using MinIO for uploads (I think it would be better to use `NFS`).
-- Using UUID to generate a unique file ID.
-- Using Qdrant container instead of using a regular directory.
+- Using `MinIO` for uploads (I think it would be better to use `NFS`).
+- Using `UUID` to generate a unique file ID.
+- Using `Qdrant` container instead of using a regular directory.
 
 ## References
 - [Mini-RAG - From notebooks to the production | Abu Bakr Soliman](https://www.youtube.com/playlist?list=PLvLvlVqNQGHCUR2p0b8a0QpVjDUg50wQj)
